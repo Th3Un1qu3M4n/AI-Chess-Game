@@ -1,1 +1,98 @@
-print("Hello World")
+# import pygame as pg
+import pygame
+import ChessEngine
+pygame.init()
+
+#
+#
+WIDTH = HEIGHT = 400
+DIMENSION = 8
+SQ_SIZE = HEIGHT // DIMENSION
+#
+MAX_FPS = 15   # only from animation
+#
+IMAGES = {}
+#
+#
+def load_images():
+    pieces = ["bR", "bN", "bB", "bQ", "bK", "wR", "wN", "wB", "wQ", "wK", "bP", "wP"]
+    for piece in pieces:
+        IMAGES[piece] = pygame.transform.scale(pygame.image.load("images/"+piece+".png"), (SQ_SIZE, SQ_SIZE))
+
+#
+# def main():
+def main():
+    screen = pygame.display.set_mode([WIDTH, HEIGHT])
+    clock = pygame.time.Clock()
+    screen.fill(pygame.Color("white"))
+    gs = ChessEngine.GameState()
+
+    # load images before starting game
+    load_images()
+
+    # Run until the user asks to quit
+
+    running = True
+
+    while running:
+
+        # Did the user click the window close button?
+
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                running = False
+
+        # Draw Game State
+        draw_game_state(screen, gs)
+        clock.tick(MAX_FPS)
+
+        # Flip the display
+
+        pygame.display.flip()
+
+    # Done! Time to quit.
+
+    pygame.quit()
+
+def draw_game_state(screen, gs):
+
+    # drawing simple squares
+    draw_board(screen)
+
+    # draw pieces on top of board
+    draw_pieces(screen, gs.board)
+
+    # TOD: draw highlighting ang available moves
+#
+#
+def draw_board(screen):
+    colors = [pygame.Color("#eeeed2"), pygame.Color("#769656")]
+    # colors = [pygame.Color("white"), pygame.Color("grey")]
+
+    for row in range(DIMENSION):
+        for col in range(DIMENSION):
+            color = colors[(row+col) % 2]
+            pygame.draw.rect(screen, color, pygame.Rect(col*SQ_SIZE, row*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+
+
+def draw_pieces(screen, board):
+    for row in range(DIMENSION):
+        for col in range(DIMENSION):
+            piece = board[row][col]
+            if piece != "--":
+                screen.blit(IMAGES[piece], pygame.Rect(col*SQ_SIZE, row*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+
+
+if __name__ == '__main__':
+    main()
+# Simple pygame program
+
+
+# Import and initialize the pygame library
+
+
+
+
+# Set up the drawing window
+
