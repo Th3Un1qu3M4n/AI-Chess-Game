@@ -28,11 +28,42 @@ class GameState():
         self.whiteToMove = not self.whiteToMove
 
     def undoMove(self):
+
         if len(self.moveLog) != 0:
+
             move = self.moveLog.pop()
+
             self.board[move.startRow][move.startCol] = move.pieceMoved
             self.board[move.endRow][move.endCol] = move.pieceCaptured
             self.whiteToMove = not self.whiteToMove #switching the turn
+
+    #every possible move that a piece can make without the concern of other pieces
+    def getAllPossibleMoves(self):
+
+        possibleMoves = []
+
+        for row in range (len(self.board)):
+            for col in range (len(self.board[row])):
+                turn = self.board[row][col][0]
+                if (turn == 'w' and self.whiteToMove) and (turn == 'b' and not self.whiteToMove):
+                    piece = self.board[row][col][1]
+                    if piece == 'P':
+                        self.getPawnMoves(row, col, possibleMoves)
+                    elif piece == 'N':
+                        self.getKnightMoves(row, col, possibleMoves)
+                    elif piece == 'B':
+                        self.getBishopMoves(row, col, possibleMoves)
+                    elif piece == 'R':
+                        self.getRookMoves(row, col, possibleMoves)
+                    elif piece == 'Q':
+                        self.getQueenMoves(row, col, possibleMoves)
+                    elif piece == 'K':
+                        self.getKingMoves(row, col, possibleMoves)
+
+
+    
+
+
 
 class Move():
 
