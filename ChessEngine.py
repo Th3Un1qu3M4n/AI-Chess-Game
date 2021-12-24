@@ -14,10 +14,14 @@ class GameState():
         self.moveLog=[]
 
     def makeMove(self, move):
-        self.board[move.startRow][move.startCol] == "--"
-        self.board[move.endRow][move.endCol] == move.pieceMoved;
+
+        self.board[move.startRow][move.startCol] = "--"
+
+        self.board[move.endRow][move.endCol] = move.pieceMoved
+
         self.moveLog.append(move)
-        self.whiteToMove = not self.whiteToMove;
+        self.whiteToMove = not self.whiteToMove
+
 
 class Move():
 
@@ -34,7 +38,7 @@ class Move():
     filesToCols = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}
     colsToFiles = {v: k for k, v in filesToCols.items()}
 
-    def __init(self, startSq, endSq, board):
+    def __init__(self, startSq, endSq, board):
         self.startRow = startSq[0]
         self.startCol = startSq[1]
         self.endRow = endSq[0]

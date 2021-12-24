@@ -55,6 +55,12 @@ def main():
                     sqselected = (row, col)
                     playerClicks.append(sqselected)
                 if len(playerClicks) == 2:
+                    move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                    print(move.getChessNotation())
+                    gs.makeMove(move)
+                    sqselected = ()
+                    playerClicks = []
+
 
 
 
