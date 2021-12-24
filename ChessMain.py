@@ -44,6 +44,8 @@ def main():
 
             if event.type == pygame.QUIT:
                 running = False
+
+            #mouse click to select a piece
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 location = pygame.mouse.get_pos()
                 col = location[0]//SQ_SIZE
@@ -60,6 +62,11 @@ def main():
                     gs.makeMove(move)
                     sqselected = ()
                     playerClicks = []
+
+            #using key 'Z' to undo a move
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_z:
+                    gs.undoMove()
 
 
 

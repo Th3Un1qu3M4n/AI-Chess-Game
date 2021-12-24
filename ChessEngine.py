@@ -15,6 +15,9 @@ class GameState():
         self.whiteToMove = True
         self.moveLog=[]
 
+
+    # Simple Chess Moves:
+
     def makeMove(self, move):
 
         self.board[move.startRow][move.startCol] = "--"
@@ -24,6 +27,12 @@ class GameState():
         self.moveLog.append(move)
         self.whiteToMove = not self.whiteToMove
 
+    def undoMove(self):
+        if len(self.moveLog) != 0:
+            move = self.moveLog.pop()
+            self.board[move.startRow][move.startCol] = move.pieceMoved
+            self.board[move.endRow][move.endCol] = move.pieceCaptured
+            self.whiteToMove = not self.whiteToMove #switching the turn
 
 class Move():
 
