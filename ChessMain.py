@@ -33,6 +33,8 @@ def main():
     # Run until the user asks to quit
 
     running = True
+    sqselected =  ()
+    playerClicks = []
 
     while running:
 
@@ -42,6 +44,25 @@ def main():
 
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                location = pygame.mouse.get_pos()
+                col = location[0]//SQ_SIZE
+                row = location[1]//SQ_SIZE
+                if sqselected == (row, col):
+                    sqselected = ()
+                    playerClicks =  []
+                else:
+                    sqselected = (row, col)
+                    playerClicks.append(sqselected)
+                if len(playerClicks) == 2:
+                    move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                    print(move.getChessNotation())
+                    gs.makeMove(move)
+                    sqselected = ()
+                    playerClicks = []
+
+
+
 
         # Draw Game State
         draw_game_state(screen, gs)
