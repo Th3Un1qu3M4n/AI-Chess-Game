@@ -171,7 +171,8 @@ class GameState():
                     break
 
     def getQueenMoves(self, row, col, possibleMoves):
-        pass
+        self.getBishopMoves(row, col, possibleMoves)
+        self.getRookMoves(row, col, possibleMoves)
 
     def getKingMoves(self, row, col, possibleMoves):
         pass
