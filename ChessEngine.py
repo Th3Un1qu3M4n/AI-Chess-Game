@@ -81,13 +81,30 @@ class GameState():
 
         if self.inCheck:
             if len(self.inCheck) == 1:
-                pass
+                moves = self.getAllPossibleMoves()
+                check = self.checks[0]
+                checkRow = check[0]
+                checkCol = check[1]
+                pieceChecking = self.board[checkRow, checkCol]
+                validSquares = []
+                if pieceChecking[0] == 'N':
+                    validSquares = [(checkRow, checkCol)]
+                else:
+                    for i in range(1, 8):
+                        validSquare = (kingRow + check[2]*i, kingCol + check[3]*i)
+                        validSquares.append(validSquare)
+                        if validSquare[0] == checkRow and validSquare[1] == checkCol:
+                            break
+                for i in range(len(moves)-1, -1, -1):
+                    if moves[i].pieceMoved[1] != 'K':
+                        if not (moves[i].endRow, moves[i].endCol) in validSquares:
+                            moves.remove(moves[i])
             else:
                 self.getKingMoves(kingRow, kingCol, moves)
         else:
             moves = self.getAllPossibleMoves()
 
-
+        return moves
 
         # Simple Algo
         # 1. get all possible moves
