@@ -97,7 +97,22 @@ class GameState():
 
     def getKnightMoves(self, row, col, possibleMoves):
 
-        pass
+        moveDirections = ((-1, -2), (-1, 2), (1, -2), (1, 2), (-2, -1), (-2, 1), (2, -1), (2, 1))  # L shapes as in left_down2, left_up2, right_down2, right_up2, left2_down, left2_up, right2_down, right2_up
+        if self.whiteToMove:
+            print("white")
+            allyColor = "w"
+        else:
+            print("black")
+            allyColor = "b"
+
+        for direction in moveDirections:
+            endRow = row + direction[0]
+            endCol = col + direction[1]
+
+            if 0 <= endRow <= 7 and 0 <= endCol <= 7:
+                endPiece = self.board[endRow][endCol]
+                if endPiece[0] != allyColor:
+                    possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
 
 
 
