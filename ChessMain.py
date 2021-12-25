@@ -37,7 +37,7 @@ def main():
     running = True
     sqselected =  ()
     playerClicks = []
-
+    print("\nPlayer White Turn")
     while running:
 
         # Did the user click the window close button?
@@ -61,6 +61,10 @@ def main():
                 if len(playerClicks) == 2:
                     move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
                     print(move.getChessNotation())
+                    print("Possible moves: ")
+                    for temp in validMoves:
+                            print(temp.getChessNotation(), end=", ")
+
                     if move in validMoves:
                         gs.makeMove(move)
                         moveMade = True
@@ -71,12 +75,19 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_z:
                     gs.undoMove()
+                    print("\nUndoing Move\n")
                     moveMade = True
 
         # Generating new possible moves after a move
         if moveMade:
             validMoves = gs.getValidMoves()
+            if(gs.whiteToMove):
+                print("\n\nPlayer White Turn")
+            else:
+                print("\n\nPlayer Black Turn")
             moveMade = False
+            print("checkMate:", gs.checkMate)
+            print("staleMate:", gs.staleMate)
 
         # Draw Game State
         draw_game_state(screen, gs)
