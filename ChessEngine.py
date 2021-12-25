@@ -105,30 +105,6 @@ class GameState():
 
     def getRookMoves(self, row, col, possibleMoves):
         # for white pieces
-        #
-        # moveDirections = ((-1,0), (0,-1), (1,0), (0,1)) #up, left, down, right
-        # if self.whiteToMove:
-        #     enemyColor = 'b'
-        # else:
-        #     enemyColor = 'w'
-        #
-        # for direction in moveDirections:
-        #     for i in range(1,8):
-        #         endRow = row + direction[0]*i
-        #         endCol = col + direction[0]*i
-        #         if 0<=endRow<=7 and 0<=endCol<=7:
-        #             endPiece = self.board[endRow][endCol]
-        #             if endPiece == "--":
-        #                 possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
-        #             elif endPiece[0] == enemyColor:
-        #                 possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
-        #                 break
-        #             else:
-        #                 break
-        #         else:
-        #             break
-
-
         pass
 
     def getQueenMoves(self, row, col, possibleMoves):
