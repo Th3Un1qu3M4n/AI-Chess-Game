@@ -21,6 +21,10 @@ class GameState():
         self.checkMate = False
         self.staleMate = False
 
+        self.inCheck = False
+        self.pins = []
+        self.checks = []
+
     # Simple Chess Moves:
 
     def makeMove(self, move):
@@ -155,8 +159,7 @@ class GameState():
 
     def getKnightMoves(self, row, col, possibleMoves):
 
-        knightMoves = ((-1, -2), (-1, 2), (1, -2), (1, 2), (-2, -1), (-2, 1), (2, -1), (2,
-                                                                                        1))  # L shapes as in left_down2, left_up2, right_down2, right_up2, left2_down, left2_up, right2_down, right2_up
+        knightMoves = ((-1, -2), (-1, 2), (1, -2), (1, 2), (-2, -1), (-2, 1), (2, -1), (2, 1))  # L shapes as in left_down2, left_up2, right_down2, right_up2, left2_down, left2_up, right2_down, right2_up
         if self.whiteToMove:
             allyColor = "w"
         else:
@@ -241,6 +244,57 @@ class GameState():
                 endPiece = self.board[endRow][endCol]
                 if endPiece[0] != allyColor:
                     possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
+
+    def checkForPinsAndChecks(self):
+        pins = []
+        checks = []
+        inCheck = False
+        if self.whiteToMove:
+            allyColor = 'w'
+            enemyColor = 'b'
+            startRow = self.whiteKingLocation[0]
+            startCol = self.whiteKingLocation[1]
+        else:
+            allyColor = 'b'
+            enemyColor = 'w'
+            startRow = self.blackKingLocation[0]
+            startCol = self.blackKingLocation[1]
+
+        directions = ((-1, -1), (-1, 0), (-1, 1), (1, -1), (1, 0), (1, 1), (0, -1), (0, 1))
+        for j in range(len(directions)):
+            d = directions[j]
+            possiblePin = ()
+            for i in range(1, 8):
+                endRow = startRow + d[0] * i
+                endCol = startCol + d[0] * i
+
+                if 0 <= endRow <= 8 and 0 <= endCol <= 8:
+                    endPiece = self.board[endRow][endCol]
+                    if endPiece[0] == allyColor:
+                        if possiblePin == ():
+                            possiblePin = (endRow, endCol, d(0), d(1))
+                        else:
+                            break
+                    elif endPiece[0] == enemyColor:
+                        type = endPiece[1]
+                        # if enemy piece found near King
+                        if ( 0<= j <=3  and type == 'R') or \
+                            ( 4 <= j <=7 and type == 'B') or \
+                            (i == 1 and type == ' p' and ((enemyColor == 'w' and 6 <= j <= 7) or (enemyColor == 'b' and 4 <= j <= 5) )) or \
+                            (type == 'Q') or \
+                            (i==1 and type == 'K'):
+                            if possiblePin == ():
+                                inCheck = True  # if enemy directly in range of King
+                                checks.append(endRow, endCol, d[0], d[1])
+                                break
+                            else:
+                                pins.append(possiblePin)  # if ally piece in between king and enemy
+                                break
+                        else:
+                            break  # if no enemy found the respective direction that poses threat
+                else:
+                    break
+
 
 
 class Move():
