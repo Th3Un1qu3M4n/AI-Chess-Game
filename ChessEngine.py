@@ -192,7 +192,7 @@ class GameState():
 
             # move up 1 or 2 squres
             if self.board[row + 1][col] == "--":
-                if not piecePinned or pinDirection == (-1, 0):
+                if not piecePinned or pinDirection == (1, 0):
                     possibleMoves.append(Move((row, col), (row + 1, col), self.board))
                     if row == 1 and self.board[row + 2][col] == "--":
                         possibleMoves.append(Move((row, col), (row + 2, col), self.board))
@@ -200,11 +200,11 @@ class GameState():
             # move diagonals
             if col - 1 >= 0:
                 if self.board[row + 1][col - 1][0] == 'w':
-                    if not piecePinned or pinDirection == (-1, -1):
+                    if not piecePinned or pinDirection == (1, 1):
                         possibleMoves.append(Move((row, col), (row + 1, col - 1), self.board))
             if col + 1 <= 7:
                 if self.board[row + 1][col + 1][0] == 'w':
-                    if not piecePinned or pinDirection == (-1, 1):
+                    if not piecePinned or pinDirection == (1, -1):
                         possibleMoves.append(Move((row, col), (row + 1, col + 1), self.board))
 
     def getKnightMoves(self, row, col, possibleMoves):
