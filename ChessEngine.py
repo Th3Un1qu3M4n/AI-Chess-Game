@@ -208,6 +208,12 @@ class GameState():
                         possibleMoves.append(Move((row, col), (row + 1, col + 1), self.board))
 
     def getKnightMoves(self, row, col, possibleMoves):
+        piecePinned = False
+        for i in range(len(self.pins) - 1, -1, -1):
+            if self.pins[i][0] == row and self.pins[i][1] == col:
+                piecePinned = True
+                self.pins.remove(self.pins[i])
+                break
 
         knightMoves = ((-1, -2), (-1, 2), (1, -2), (1, 2), (-2, -1), (-2, 1), (2, -1), (2, 1))  # L shapes as in left_down2, left_up2, right_down2, right_up2, left2_down, left2_up, right2_down, right2_up
         if self.whiteToMove:
@@ -220,9 +226,10 @@ class GameState():
             endCol = col + n_move[1]
 
             if 0 <= endRow <= 7 and 0 <= endCol <= 7:
-                endPiece = self.board[endRow][endCol]
-                if endPiece[0] != allyColor:
-                    possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
+                if not piecePinned:
+                    endPiece = self.board[endRow][endCol]
+                    if endPiece[0] != allyColor:
+                        possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
 
     def getBishopMoves(self, row, col, possibleMoves):
 
