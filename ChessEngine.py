@@ -128,9 +128,6 @@ class GameState():
                 else:
                     break
 
-
-        pass
-
     def getQueenMoves(self, row, col, possibleMoves):
         pass
 
