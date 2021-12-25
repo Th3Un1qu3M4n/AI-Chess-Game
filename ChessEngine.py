@@ -232,6 +232,15 @@ class GameState():
                         possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
 
     def getBishopMoves(self, row, col, possibleMoves):
+        piecePinned = False
+        pinDirection = ()
+        for i in range(len(self.pins) - 1, -1, -1):
+            if self.pins[i][0] == row and self.pins[i][1] == col:
+                piecePinned = True
+                pinDirection = (self.pins[i][2], self.pins[i][3])
+                self.pins.remove(self.pins[i])
+                break
+
 
         bishopMoves = ((-1, -1), (1, -1), (-1, 1), (1, 1))  # left_down, right_down, left_up, right_up
         if self.whiteToMove:
@@ -244,14 +253,15 @@ class GameState():
                 endRow = row + b_moves[0] * i
                 endCol = col + b_moves[1] * i
                 if 0 <= endRow <= 7 and 0 <= endCol <= 7:
-                    endPiece = self.board[endRow][endCol]
-                    if endPiece == "--":
-                        possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
-                    elif endPiece[0] == enemyColor:
-                        possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
-                        break
-                    else:
-                        break
+                    if not piecePinned or pinDirection == b_moves or pinDirection == (-b_moves[0], -b_moves[1]):
+                        endPiece = self.board[endRow][endCol]
+                        if endPiece == "--":
+                            possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
+                        elif endPiece[0] == enemyColor:
+                            possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
+                            break
+                        else:
+                            break
                 else:
                     break
 
