@@ -95,6 +95,14 @@ class GameState():
                 if row == 1 and self.board[row+2][col] == "--":
                     possibleMoves.append(Move((row, col), (row+2, col), self.board))
 
+            # move diagonals
+            if col-1>=0:
+                if self.board[row+1][col-1][0] == 'w':
+                    possibleMoves.append(Move((row, col), (row+1, col-1), self.board))
+            if col+1<=7:
+                if self.board[row+1][col+1][0] == 'w':
+                    possibleMoves.append(Move((row, col), (row+1, col+1), self.board))
+
 
 
 
