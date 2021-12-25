@@ -249,6 +249,15 @@ class GameState():
                     break
 
     def getRookMoves(self, row, col, possibleMoves):
+        piecePinned = False
+        pinDirection = ()
+        for i in range(len(self.pins) - 1, -1, -1):
+            if self.pins[i][0] == row and self.pins[i][1] == col:
+                piecePinned = True
+                pinDirection = (self.pins[i][2], self.pins[i][3])
+                if self.board[row][col][1] != 'Q':
+                    self.pins.remove(self.pins[i])
+                break
 
         rookMoves = ((-1, 0), (0, -1), (1, 0), (0, 1))  # up, left, down, right
         if self.whiteToMove:
@@ -261,14 +270,15 @@ class GameState():
                 endRow = row + r_move[0] * i
                 endCol = col + r_move[1] * i
                 if 0 <= endRow <= 7 and 0 <= endCol <= 7:
-                    endPiece = self.board[endRow][endCol]
-                    if endPiece == "--":
-                        possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
-                    elif endPiece[0] == enemyColor:
-                        possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
-                        break
-                    else:
-                        break
+                    if not piecePinned or pinDirection == r_move or pinDirection == ( -r_move[0], -r_move[1]):
+                        endPiece = self.board[endRow][endCol]
+                        if endPiece == "--":
+                            possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
+                        elif endPiece[0] == enemyColor:
+                            possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
+                            break
+                        else:
+                            break
                 else:
                     break
 
