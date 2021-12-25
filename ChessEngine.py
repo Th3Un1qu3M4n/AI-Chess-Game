@@ -157,23 +157,34 @@ class GameState():
         return False
 
     def getPawnMoves(self, row, col, possibleMoves):
-        # for white pieces
+        piecePinned = False
+        pinDirection = ()
+        for i in range(len(self.pins)-1, -1, -1):
+            if self.pins[i][0] == row and self.pins[i][1] == col:
+                piecePinned = True
+                pinDirection = (self.pins[i][2], self.pins[i][3])
+                self.pins.remove(self.pins[i])
+                break
 
+        # for white pieces
         if self.whiteToMove:
 
             # move up 1 or 2 squres
             if self.board[row - 1][col] == "--":
-                possibleMoves.append(Move((row, col), (row - 1, col), self.board))
-                if row == 6 and self.board[row - 2][col] == "--":
-                    possibleMoves.append(Move((row, col), (row - 2, col), self.board))
+                if not piecePinned or pinDirection == (-1, 0):
+                    possibleMoves.append(Move((row, col), (row - 1, col), self.board))
+                    if row == 6 and self.board[row - 2][col] == "--":
+                        possibleMoves.append(Move((row, col), (row - 2, col), self.board))
 
             # move diagonals
             if col - 1 >= 0:
                 if self.board[row - 1][col - 1][0] == 'b':
-                    possibleMoves.append(Move((row, col), (row - 1, col - 1), self.board))
+                    if not piecePinned or pinDirection == (-1, -1):
+                        possibleMoves.append(Move((row, col), (row - 1, col - 1), self.board))
             if col + 1 <= 7:
                 if self.board[row - 1][col + 1][0] == 'b':
-                    possibleMoves.append(Move((row, col), (row - 1, col + 1), self.board))
+                    if not piecePinned or pinDirection == (-1, 1):
+                        possibleMoves.append(Move((row, col), (row - 1, col + 1), self.board))
 
         # for black pieces
 
@@ -181,17 +192,20 @@ class GameState():
 
             # move up 1 or 2 squres
             if self.board[row + 1][col] == "--":
-                possibleMoves.append(Move((row, col), (row + 1, col), self.board))
-                if row == 1 and self.board[row + 2][col] == "--":
-                    possibleMoves.append(Move((row, col), (row + 2, col), self.board))
+                if not piecePinned or pinDirection == (-1, 0):
+                    possibleMoves.append(Move((row, col), (row + 1, col), self.board))
+                    if row == 1 and self.board[row + 2][col] == "--":
+                        possibleMoves.append(Move((row, col), (row + 2, col), self.board))
 
             # move diagonals
             if col - 1 >= 0:
                 if self.board[row + 1][col - 1][0] == 'w':
-                    possibleMoves.append(Move((row, col), (row + 1, col - 1), self.board))
+                    if not piecePinned or pinDirection == (-1, -1):
+                        possibleMoves.append(Move((row, col), (row + 1, col - 1), self.board))
             if col + 1 <= 7:
                 if self.board[row + 1][col + 1][0] == 'w':
-                    possibleMoves.append(Move((row, col), (row + 1, col + 1), self.board))
+                    if not piecePinned or pinDirection == (-1, 1):
+                        possibleMoves.append(Move((row, col), (row + 1, col + 1), self.board))
 
     def getKnightMoves(self, row, col, possibleMoves):
 
