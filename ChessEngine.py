@@ -14,6 +14,7 @@ class GameState():
 
         self.whiteToMove = True
         self.moveLog=[]
+        self.possibleMoveFunctions = {'P': self.getPawnMoves, 'N': self.getKnightMoves, 'B': self.getBishopMoves, 'R': self.getRookMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
 
     # Simple Chess Moves:
 
@@ -46,18 +47,7 @@ class GameState():
                 turn = self.board[row][col][0]
                 if (turn == 'w' and self.whiteToMove) or (turn == 'b' and not self.whiteToMove):
                     piece = self.board[row][col][1]
-                    if piece == 'P':
-                        self.getPawnMoves(row, col, possibleMoves)
-                    # elif piece == 'N':
-                    #     self.getKnightMoves(row, col, possibleMoves)
-                    # elif piece == 'B':
-                    #     self.getBishopMoves(row, col, possibleMoves)
-                    # elif piece == 'R':
-                    #     self.getRookMoves(row, col, possibleMoves)
-                    # elif piece == 'Q':
-                    #     self.getQueenMoves(row, col, possibleMoves)
-                    # elif piece == 'K':
-                    #     self.getKingMoves(row, col, possibleMoves)
+                    self.possibleMoveFunctions[piece](row, col, possibleMoves)
 
         return possibleMoves
 
@@ -103,7 +93,20 @@ class GameState():
                 if self.board[row+1][col+1][0] == 'w':
                     possibleMoves.append(Move((row, col), (row+1, col+1), self.board))
 
+    def getKnightMoves(self, row, col, possibleMoves):
+        pass
 
+    def getBishopMoves(self, row, col, possibleMoves):
+        pass
+
+    def getRookMoves(self, row, col, possibleMoves):
+        pass
+
+    def getQueenMoves(self, row, col, possibleMoves):
+        pass
+
+    def getKingMoves(self, row, col, possibleMoves):
+        pass
 
 
 
