@@ -44,20 +44,20 @@ class GameState():
         for row in range (len(self.board)):
             for col in range (len(self.board[row])):
                 turn = self.board[row][col][0]
-                if (turn == 'w' and self.whiteToMove) and (turn == 'b' and not self.whiteToMove):
+                if (turn == 'w' and self.whiteToMove) or (turn == 'b' and not self.whiteToMove):
                     piece = self.board[row][col][1]
                     if piece == 'P':
                         self.getPawnMoves(row, col, possibleMoves)
-                    elif piece == 'N':
-                        self.getKnightMoves(row, col, possibleMoves)
-                    elif piece == 'B':
-                        self.getBishopMoves(row, col, possibleMoves)
-                    elif piece == 'R':
-                        self.getRookMoves(row, col, possibleMoves)
-                    elif piece == 'Q':
-                        self.getQueenMoves(row, col, possibleMoves)
-                    elif piece == 'K':
-                        self.getKingMoves(row, col, possibleMoves)
+                    # elif piece == 'N':
+                    #     self.getKnightMoves(row, col, possibleMoves)
+                    # elif piece == 'B':
+                    #     self.getBishopMoves(row, col, possibleMoves)
+                    # elif piece == 'R':
+                    #     self.getRookMoves(row, col, possibleMoves)
+                    # elif piece == 'Q':
+                    #     self.getQueenMoves(row, col, possibleMoves)
+                    # elif piece == 'K':
+                    #     self.getKingMoves(row, col, possibleMoves)
 
         return possibleMoves
 
@@ -66,7 +66,14 @@ class GameState():
 
         return self.getAllPossibleMoves()
 
-    # def getPawnMoves(self):
+    def getPawnMoves(self, row, col, possibleMoves):
+        # for white pieces
+        if self.whiteToMove:
+            if self.board[row-1][col] == "--":
+                possibleMoves.append(Move((row, col), (row-1, col), self.board))
+                if row == 6 and self.board[row-2][col] == "--":
+                    possibleMoves.append(Move((row, col), (row-2, col), self.board))
+
 
 
 
