@@ -68,11 +68,22 @@ class GameState():
 
     def getPawnMoves(self, row, col, possibleMoves):
         # for white pieces
+
+        #move up 1 or 2 squres
         if self.whiteToMove:
             if self.board[row-1][col] == "--":
                 possibleMoves.append(Move((row, col), (row-1, col), self.board))
                 if row == 6 and self.board[row-2][col] == "--":
                     possibleMoves.append(Move((row, col), (row-2, col), self.board))
+
+            # move diagonals
+            if col-1>=0:
+                if self.board[row-1][col-1][0] == 'b':
+                    possibleMoves.append(Move((row, col), (row-1, col-1), self.board))
+            if col+1 <=7:
+                if self.board[row-1][col+1][0] == 'b':
+                    possibleMoves.append(Move((row, col), (row-1, col+1), self.board))
+
 
 
 
