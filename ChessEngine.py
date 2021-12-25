@@ -72,6 +72,7 @@ class GameState():
     def getValidMoves(self):
         moves = []
         self.inCheck, self.pins, self.checks = self.checkForPinsAndChecks()
+        print("\n incheck: ", self.inCheck, "\n")
         if self.whiteToMove:
             kingRow = self.whiteKingLocation[0]
             kingCol = self.whiteKingLocation[1]
@@ -80,12 +81,12 @@ class GameState():
             kingCol = self.blackKingLocation[1]
 
         if self.inCheck:
-            if len(self.inCheck) == 1:
+            if len(self.checks) == 1:
                 moves = self.getAllPossibleMoves()
                 check = self.checks[0]
                 checkRow = check[0]
                 checkCol = check[1]
-                pieceChecking = self.board[checkRow, checkCol]
+                pieceChecking = self.board[checkRow][checkCol]
                 validSquares = []
                 if pieceChecking[0] == 'N':
                     validSquares = [(checkRow, checkCol)]
@@ -132,29 +133,29 @@ class GameState():
         #     self.checkMate = False
         #     self.staleMate = False
         # return moves
-
-    def inCheck(self):
-        if self.whiteToMove:
-            return self.squareUnderAttack(self.whiteKingLocation[0], self.whiteKingLocation[1])
-        else:
-            return self.squareUnderAttack(self.blackKingLocation[0], self.blackKingLocation[1])
-
-    def squareUnderAttack(self, row, col):
-        # switch to opponent
-        self.whiteToMove = not self.whiteToMove
-
-        oppMoves = self.getAllPossibleMoves()
-
-        # switch back to current player
-        self.whiteToMove = not self.whiteToMove
-
-
-        for move in oppMoves:
-            # square under attack
-            if move.endRow == row and move.endCol == col:
-                return True
-
-        return False
+    #
+    # def inCheck(self):
+    #     if self.whiteToMove:
+    #         return self.squareUnderAttack(self.whiteKingLocation[0], self.whiteKingLocation[1])
+    #     else:
+    #         return self.squareUnderAttack(self.blackKingLocation[0], self.blackKingLocation[1])
+    #
+    # def squareUnderAttack(self, row, col):
+    #     # switch to opponent
+    #     self.whiteToMove = not self.whiteToMove
+    #
+    #     oppMoves = self.getAllPossibleMoves()
+    #
+    #     # switch back to current player
+    #     self.whiteToMove = not self.whiteToMove
+    #
+    #
+    #     for move in oppMoves:
+    #         # square under attack
+    #         if move.endRow == row and move.endCol == col:
+    #             return True
+    #
+    #     return False
 
     def getPawnMoves(self, row, col, possibleMoves):
         piecePinned = False
@@ -306,21 +307,41 @@ class GameState():
 
     def getKingMoves(self, row, col, possibleMoves):
 
-        kingMoves = ((-1, -1), (-1, 0), (-1, 1), (1, -1), (1, 0), (1, 1), (0, -1),
-                     (0, 1))  # left_down, left, left_up, right_down, right_up, right, rifght_up, down, up
+        rowMoves = (-1, -1, -1, 0, 0, 1, 1, 1)
+        colMoves = (-1, 0, 1, -1, 1, -1, 0, 1)
+
+        # kingMoves = ((-1, -1), (-1, 0), (-1, 1), (1, -1), (1, 0), (1, 1), (0, -1),(0, 1))  # left_down, left, left_up, right_down, right_up, right, rifght_up, down, up
         if self.whiteToMove:
             allyColor = "w"
         else:
             allyColor = "b"
 
         for k_move in range(8):
-            endRow = row + kingMoves[k_move][0]
-            endCol = col + kingMoves[k_move][1]
+            # endRow = row + kingMoves[k_move][0]
+            # endCol = col + kingMoves[k_move][1]
+
+            endRow = row + rowMoves[k_move]
+            endCol = col + colMoves[k_move]
 
             if 0 <= endRow <= 7 and 0 <= endCol <= 7:
                 endPiece = self.board[endRow][endCol]
                 if endPiece[0] != allyColor:
-                    possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
+
+                    if allyColor == 'w':
+                        self.whiteKingLocation = (endRow, endCol)
+                    else:
+                        self.blackKingLocation = (endRow, endCol)
+
+                    inCheck, pins, checks = self. checkForPinsAndChecks()
+
+                    if not inCheck:
+                        possibleMoves.append(Move((row, col), (endRow, endCol), self.board))
+
+                    if allyColor == 'w':
+                        self.whiteKingLocation = (row, col)
+                    else:
+                        self.blackKingLocation = (row, col)
+
 
     def checkForPinsAndChecks(self):
         pins = []
@@ -343,17 +364,18 @@ class GameState():
             possiblePin = ()
             for i in range(1, 8):
                 endRow = startRow + d[0] * i
-                endCol = startCol + d[0] * i
+                endCol = startCol + d[1] * i
 
-                if 0 <= endRow <= 8 and 0 <= endCol <= 8:
+                if 0 <= endRow < 8 and 0 <= endCol < 8:
                     endPiece = self.board[endRow][endCol]
-                    if endPiece[0] == allyColor:
+                    if endPiece[0] == allyColor and endPiece[1] != 'K':
                         if possiblePin == ():
-                            possiblePin = (endRow, endCol, d(0), d(1))
+                            possiblePin = (endRow, endCol, d[0], d[1])
                         else:
                             break
                     elif endPiece[0] == enemyColor:
                         type = endPiece[1]
+                        print(startRow, startCol," enemy found in direction ", d[0], d[1], type, endRow, endCol)
                         # if enemy piece found near King
                         if ( 0<= j <=3  and type == 'R') or \
                             ( 4 <= j <=7 and type == 'B') or \
@@ -377,7 +399,7 @@ class GameState():
         for m in knightMoves:
             endRow = startRow + m[0]
             endCol = startCol + m[1]
-            if 0 <= endRow <= 8 and 0 <= endCol <= 8:
+            if 0 <= endRow < 8 and 0 <= endCol < 8:
                 endPiece = self.board[endRow][endCol]
                 if endPiece[0] == enemyColor and endPiece[1] == 'N':
                     isCheck = True
