@@ -26,6 +26,8 @@ def main():
     clock = pygame.time.Clock()
     screen.fill(pygame.Color("white"))
     gs = ChessEngine.GameState()
+    validMoves = gs.getValidMoves()
+    moveMade = False #used to chk whether to regenrate the validMoves function again or not based on the move performed
 
     # load images before starting game
     load_images()
@@ -59,7 +61,9 @@ def main():
                 if len(playerClicks) == 2:
                     move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
                     print(move.getChessNotation())
-                    gs.makeMove(move)
+                    if move in validMoves:
+                        gs.makeMove(move)
+                        moveMade = True
                     sqselected = ()
                     playerClicks = []
 
@@ -67,9 +71,12 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_z:
                     gs.undoMove()
+                    moveMade = True
 
-
-
+        # Generating new possible moves after a move
+        if moveMade:
+            validMoves = gs.getValidMoves()
+            moveMade = False
 
         # Draw Game State
         draw_game_state(screen, gs)
