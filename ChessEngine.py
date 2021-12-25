@@ -285,7 +285,7 @@ class GameState():
                             (i==1 and type == 'K'):
                             if possiblePin == ():
                                 inCheck = True  # if enemy directly in range of King
-                                checks.append(endRow, endCol, d[0], d[1])
+                                checks.append((endRow, endCol, d[0], d[1]))
                                 break
                             else:
                                 pins.append(possiblePin)  # if ally piece in between king and enemy
@@ -294,6 +294,19 @@ class GameState():
                             break  # if no enemy found the respective direction that poses threat
                 else:
                     break
+
+        #  Special Case for Knight Moves
+        knightMoves = ((-1, -2), (-1, 2), (1, -2), (1, 2), (-2, -1), (-2, 1), (2, -1), (2, 1))
+        for m in knightMoves:
+            endRow = startRow + m[0]
+            endCol = startCol + m[1]
+            if 0 <= endRow <= 8 and 0 <= endCol <= 8:
+                endPiece = self.board[endRow][endCol]
+                if endPiece[0] == enemyColor and endPiece[1] == 'N':
+                    isCheck = True
+                    checks.append((endRow, endCol, d[0], d[1]))
+        return inCheck, pins, checks
+
 
 
 
