@@ -18,8 +18,6 @@ class GameState():
         self.blackKingLocation = (0, 4)
         self.possibleMoveFunctions = {'P': self.getPawnMoves, 'N': self.getKnightMoves, 'B': self.getBishopMoves,
                                       'R': self.getRookMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
-        self.checkMate = False
-        self.staleMate = False
 
         self.inCheck = False
         self.pins = []
@@ -106,56 +104,6 @@ class GameState():
             moves = self.getAllPossibleMoves()
 
         return moves
-
-        # Simple Algo
-        # 1. get all possible moves
-        # 2. for each move in possible move make the move
-        # 3. generate moves of opponent
-        # 4. for each move in opponent possible moves check if king in danger
-        # 5. King in danger than not a valid move
-        #
-        # moves = self.getAllPossibleMoves()
-        # for i in range(len(moves)-1, -1, -1):
-        #     self.makeMove(moves[i])
-        #     # switch back to current player after making move
-        #     self.whiteToMove = not self.whiteToMove
-        #     if self.inCheck():
-        #         moves.remove(moves[i])
-        #     self.whiteToMove = not self.whiteToMove
-        #     self.undoMove()
-        # if len(moves) == 0:
-        #     if self.inCheck():
-        #         self.checkMate = True
-        #     else:
-        #         self.staleMate = True
-        # else:
-        #     # return checkmate and stalemate due to undo moves
-        #     self.checkMate = False
-        #     self.staleMate = False
-        # return moves
-    #
-    # def inCheck(self):
-    #     if self.whiteToMove:
-    #         return self.squareUnderAttack(self.whiteKingLocation[0], self.whiteKingLocation[1])
-    #     else:
-    #         return self.squareUnderAttack(self.blackKingLocation[0], self.blackKingLocation[1])
-    #
-    # def squareUnderAttack(self, row, col):
-    #     # switch to opponent
-    #     self.whiteToMove = not self.whiteToMove
-    #
-    #     oppMoves = self.getAllPossibleMoves()
-    #
-    #     # switch back to current player
-    #     self.whiteToMove = not self.whiteToMove
-    #
-    #
-    #     for move in oppMoves:
-    #         # square under attack
-    #         if move.endRow == row and move.endCol == col:
-    #             return True
-    #
-    #     return False
 
     def getPawnMoves(self, row, col, possibleMoves):
         piecePinned = False
