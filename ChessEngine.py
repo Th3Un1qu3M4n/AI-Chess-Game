@@ -18,7 +18,7 @@ class GameState():
         self.blackKingLocation = (0, 4)
         self.possibleMoveFunctions = {'P': self.getPawnMoves, 'N': self.getKnightMoves, 'B': self.getBishopMoves,
                                       'R': self.getRookMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
-        self.enpassantPossible = () # the square for enpasant possible
+        self.enpassantPossible = ()  # the square for enpasant possible
         self.checkMate = False
         self.staleMate = False
 
@@ -45,18 +45,18 @@ class GameState():
 
         # For Pawn Promotion:
         if move.isPawnPromotion:
-            promotedPiece = input("Promote Pawn(P) to Queen(Q), Rook(R), Bishop(B), or Knight(N): ")
+            promotedPiece = input("\n\nPromote Pawn(P) to Queen(Q), Rook(R), Bishop(B), or Knight(N): ")
             self.board[move.endRow][move.endCol] = move.pieceMoved[0] + promotedPiece
-
-        # For Enpassant Move:
-        if move.isEnpassantMove:
-            self.board[move.startRow][move.startCol] = '--'
 
         # Update Enpassant Variable only if Pawn Moves Two Squares:
         if move.pieceMoved[1] == 'P' and abs(move.startRow - move.endRow) == 2:
             self.enpassantPossible = ((move.startRow + move.endRow)//2, move.startCol)  # Taking Average to get the square in the middle of the 2 square move
         else:
             self.enpassantPossible = ()
+
+        # For Enpassant Move:
+        if move.isEnpassantMove:
+            self.board[move.startRow][move.endCol] = '--'
 
     def undoMove(self):
 
@@ -474,13 +474,15 @@ class Move():
         if (self.pieceMoved == 'wP' and self.endRow == 0) or (self.pieceMoved == 'bP' and self.endRow == 7):
             self.isPawnPromotion = True
 
-        # For Enpassant Possibility:
+        # For Enpassant Move:
         self.isEnpassantMove = isEnpassantMove
         if self.isEnpassantMove:
-            if self.pieceMoved == 'bP':
-                self.pieceCaptured = 'wP'
-            else:
+            print("Enpassant")
+            if self.pieceMoved == 'wP':
+                print(self.pieceMoved)
                 self.pieceCaptured = 'bP'
+            else:
+                self.pieceCaptured = 'wP'
 
 
         self.moveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
