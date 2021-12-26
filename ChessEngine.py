@@ -98,7 +98,6 @@ class GameState():
 
     def getValidMoves(self):
 
-        tempEnpassantPossible = self.enpassantPossible
         moves = []
         self.inCheck, self.pins, self.checks = self.checkForPinsAndChecks()
         print("\n incheck: ", self.inCheck, "\n")
@@ -134,7 +133,6 @@ class GameState():
         else:
             moves = self.getAllPossibleMoves()
 
-        self.enpassantPossible = tempEnpassantPossible
         return moves
 
         # Simple Algo
