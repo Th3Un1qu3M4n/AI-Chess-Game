@@ -136,13 +136,4 @@ def draw_pieces(screen, board):
 
 if __name__ == '__main__':
     main()
-# Simple pygame program
-
-
-# Import and initialize the pygame library
-
-
-
-
-# Set up the drawing window
 
