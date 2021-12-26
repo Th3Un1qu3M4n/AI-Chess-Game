@@ -46,7 +46,7 @@ class GameState():
         # For Pawn Promotion:
         if move.isPawnPromotion:
             promotedPiece = input("Promote Pawn(P) to Queen(Q), Rook(R), Bishop(B), or Knight(N): ")
-            self.board[move.endRow][move.endCol] = move.pieceMoved[0] + 'Q'
+            self.board[move.endRow][move.endCol] = move.pieceMoved[0] + promotedPiece
 
         # For Enpassant Move:
         if move.isEnpassantMove:
