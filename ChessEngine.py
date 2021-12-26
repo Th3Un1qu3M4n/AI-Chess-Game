@@ -18,6 +18,7 @@ class GameState():
         self.blackKingLocation = (0, 4)
         self.possibleMoveFunctions = {'P': self.getPawnMoves, 'N': self.getKnightMoves, 'B': self.getBishopMoves,
                                       'R': self.getRookMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
+        self.enpassantPossible = () # the square for enpasant possible
         self.checkMate = False
         self.staleMate = False
 
@@ -429,7 +430,7 @@ class Move():
     filesToCols = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}
     colsToFiles = {v: k for k, v in filesToCols.items()}
 
-    def __init__(self, startSq, endSq, board):
+    def __init__(self, startSq, endSq, board, enpassantPossible = ()):
         self.startRow = startSq[0]
         self.startCol = startSq[1]
         self.endRow = endSq[0]
@@ -439,10 +440,16 @@ class Move():
 
         # For Pawn Promotion:
         self.isPawnPromotion = False
-        print(self.endRow)
         if (self.pieceMoved == 'wP' and self.endRow == 0) or (self.pieceMoved == 'bP' and self.endRow == 7):
-            print("is pwnPromotion")
             self.isPawnPromotion = True
+
+        # For Enpassant Possibility:
+        self.isEnpassantMove = False
+        if self.pieceMoved[1] == 'P' and (self.endRow, self.endCol) == enpassantPossible:
+            self.isEnpassantMove = True
+        if (self.pieceMoved == 'wP' and self.endRow == 0) or (self.pieceMoved == 'bP' and self.endRow == 7):
+            self.isPawnPromotion = True
+
 
         self.moveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
 
