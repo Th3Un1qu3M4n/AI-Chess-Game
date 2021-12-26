@@ -35,7 +35,7 @@ def main():
     # Run until the user asks to quit
 
     running = True
-    sqselected =  ()
+    sqselected = ()
     playerClicks = []
     print("\nPlayer White Turn")
     while running:
@@ -54,7 +54,7 @@ def main():
                 row = location[1]//SQ_SIZE
                 if sqselected == (row, col):
                     sqselected = ()
-                    playerClicks =  []
+                    playerClicks = []
                 else:
                     sqselected = (row, col)
                     playerClicks.append(sqselected)
@@ -65,11 +65,15 @@ def main():
                     for temp in validMoves:
                             print(temp.getChessNotation(), end=", ")
 
-                    if move in validMoves:
-                        gs.makeMove(move)
-                        moveMade = True
-                    sqselected = ()
-                    playerClicks = []
+                    for i in range(len(validMoves)):
+                        if move == validMoves[i]:
+                            gs.makeMove(validMoves[i])
+                            moveMade = True
+                            sqselected = ()
+                            playerClicks = []
+
+                    if not moveMade:
+                        playerClicks = [sqselected]
 
             #using key 'Z' to undo a move
             elif event.type == pygame.KEYDOWN:
