@@ -191,11 +191,12 @@ class GameState():
                         possibleMoves.append(Move((row, col), (row - 1, col - 1), self.board))
                 elif (row-1, col-1) == self.enpassantPossible:
                     possibleMoves.append(Move((row, col), (row - 1, col - 1), self.board, isEnpassantMove=True))
+
             if col + 1 <= 7:
                 if self.board[row - 1][col + 1][0] == 'b':
                     if not piecePinned or pinDirection == (-1, 1):
                         possibleMoves.append(Move((row, col), (row - 1, col + 1), self.board))
-                elif (row-1, col-1) == self.enpassantPossible:
+                elif (row-1, col+1) == self.enpassantPossible:
                     possibleMoves.append(Move((row, col), (row - 1, col + 1), self.board, isEnpassantMove=True))
 
         # for black pieces
@@ -214,10 +215,15 @@ class GameState():
                 if self.board[row + 1][col - 1][0] == 'w':
                     if not piecePinned or pinDirection == (1, 1):
                         possibleMoves.append(Move((row, col), (row + 1, col - 1), self.board))
+                elif (row + 1, col - 1) == self.enpassantPossible:
+                    possibleMoves.append(Move((row, col), (row + 1, col - 1), self.board, isEnpassantMove=True))
+
             if col + 1 <= 7:
                 if self.board[row + 1][col + 1][0] == 'w':
                     if not piecePinned or pinDirection == (1, -1):
                         possibleMoves.append(Move((row, col), (row + 1, col + 1), self.board))
+                elif (row + 1, col + 1) == self.enpassantPossible:
+                    possibleMoves.append(Move((row, col), (row + 1, col + 1), self.board, isEnpassantMove=True))
 
     def getKnightMoves(self, row, col, possibleMoves):
         piecePinned = False
