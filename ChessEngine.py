@@ -477,9 +477,7 @@ class Move():
         # For Enpassant Move:
         self.isEnpassantMove = isEnpassantMove
         if self.isEnpassantMove:
-            print("Enpassant")
             if self.pieceMoved == 'wP':
-                print(self.pieceMoved)
                 self.pieceCaptured = 'bP'
             else:
                 self.pieceCaptured = 'wP'
