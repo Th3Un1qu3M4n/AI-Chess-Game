@@ -71,6 +71,16 @@ class GameState():
             elif move.pieceMoved == 'bK':
                 self.blackKingLocation = (move.startRow, move.startCol)
 
+            # Undo Enpassant Move
+            if move.isEnpassantMove:
+                self.board[move.endRow][move.endCol] = '--'  # Making The Ending square blank as the pawn captured was not in that square
+                self.board[move.startRow][move.endCol] = move.pieceCaptured
+                self.enpassantPossible = (move.endRow, move.endCol)
+
+            # Undo the captured
+            if move.pieceMoved[1] == 'P' and abs(move.startRow - move.endRow) == 2:
+                self.enpassantPossible = ()
+
     # every possible move that a piece can make without the concern of other pieces
     def getAllPossibleMoves(self):
 
