@@ -190,7 +190,7 @@ class GameState():
                     if not piecePinned or pinDirection == (-1, -1):
                         possibleMoves.append(Move((row, col), (row - 1, col - 1), self.board))
                 # elif (row-1, col-1) == self.enpassantPossible:
-
+                #     possibleMoves.append(Move((row, col), (row - 1, col - 1), self.board, isEnpassantMove=True))
             if col + 1 <= 7:
                 if self.board[row - 1][col + 1][0] == 'b':
                     if not piecePinned or pinDirection == (-1, 1):
@@ -432,7 +432,7 @@ class Move():
     filesToCols = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}
     colsToFiles = {v: k for k, v in filesToCols.items()}
 
-    def __init__(self, startSq, endSq, board, enpassantPossible = False):
+    def __init__(self, startSq, endSq, board, isEnpassantMove = False):
         self.startRow = startSq[0]
         self.startCol = startSq[1]
         self.endRow = endSq[0]
@@ -446,7 +446,7 @@ class Move():
             self.isPawnPromotion = True
 
         # For Enpassant Possibility:
-        self.isEnpassantMove = enpassantPossible
+        self.isEnpassantMove = isEnpassantMove
 
 
         self.moveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
