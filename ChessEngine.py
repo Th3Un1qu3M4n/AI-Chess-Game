@@ -45,8 +45,17 @@ class GameState():
 
         # For Pawn Promotion:
         if move.isPawnPromotion:
-            print("abc")
             self.board[move.endRow][move.endCol] = move.pieceMoved[0] + 'Q'
+
+        # For Enpassant Move:
+        if move.isEnpassantMove:
+            self.board[move.startRow][move.startCol] = '--'
+
+        # Update Enpassant Variable only if Pawn Moves Two Squares:
+        if move.pieceMoved[1] == 'P' and abs(move.startRow - move.endRow) == 2:
+            self.enpassantPossible = ((move.startRow + move.endRow)//2, move.startCol)  # Taking Average to get the square in the middle of the 2 square move
+        else:
+            self.enpassantPossible = ()
 
     def undoMove(self):
 
