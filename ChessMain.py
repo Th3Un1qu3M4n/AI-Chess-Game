@@ -178,7 +178,7 @@ def animateMove(move, screen, board, clock):
         clock.tick(60)
 
 def drawText(screen, text):
-    font = pygame.font.SysFont("Helvitica", 32, True, False)
+    font = pygame.font.SysFont("Century Gothic", 28, True, False)
     textObject = font.render(text, 0, pygame.Color('black'))
     textLocation = pygame.Rect( 0, 0, WIDTH, HEIGHT).move(WIDTH/2 - textObject.get_width()/2, HEIGHT/2 - textObject.get_height()/2)
     screen.blit(textObject, textLocation)
