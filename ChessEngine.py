@@ -29,6 +29,9 @@ class GameState():
         self.pins = []
         self.checks = []
 
+        self.currentCastlingRights = CastleRights(True, True, True, True)
+        self.castleRightsLog = [self.currentCastlingRights]
+
     # Simple Chess Moves:
 
     def makeMove(self, move):
@@ -61,12 +64,15 @@ class GameState():
         # Update Enpassant Variable only if Pawn Moves Two Squares:
         if move.pieceMoved[1] == 'P' and abs(move.startRow - move.endRow) == 2:
             self.enpassantPossible = ((move.startRow + move.endRow)//2, move.startCol)  # Taking Average to get the square in the middle of the 2 square move
+            print("\n en possant\n", move.pieceMoved)
         else:
             self.enpassantPossible = ()
 
         # For Enpassant Move:
         if move.isEnpassantMove:
             self.board[move.startRow][move.endCol] = '--'
+
+        self.updateCastleRights(move)
 
     def undoMove(self):
 
@@ -91,6 +97,9 @@ class GameState():
             # Undo the captured
             if move.pieceMoved[1] == 'P' and abs(move.startRow - move.endRow) == 2:
                 self.enpassantPossible = ()
+    def updateCastleRights(self, move):
+        pass
+
 
     # every possible move that a piece can make without the concern of other pieces
     def getAllPossibleMoves(self):
@@ -458,9 +467,16 @@ class GameState():
                 endPiece = self.board[endRow][endCol]
                 if endPiece[0] == enemyColor and endPiece[1] == 'N':
                     isCheck = True
-                    checks.append((endRow, endCol, d[0], d[1]))
+                    checks.append((endRow, endCol, m[0], m[1]))
         return inCheck, pins, checks
 
+
+class CastleRights():
+    def __init__(self, wks, bks, wqs, bqs):
+        self.wks = wks
+        self.bks = bks
+        self. wqs = wqs
+        self.bqs = bqs
 
 
 
