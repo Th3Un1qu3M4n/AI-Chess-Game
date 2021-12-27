@@ -13,12 +13,12 @@ def findBestMove(gs, validMoves):
     else:
         turn = -1
 
-    maxScore = -CHECKMATE
+    opponentMinMaxScore = -CHECKMATE
     bestMove = None
 
     for playerMove in validMoves:
         gs.makeMove(playerMove)
-        opponentMoves = gs.getvalidMoves()
+        opponentMoves = gs.getValidMoves()
         for opponentMove in opponentMoves:
             gs.makeMove(opponentMove)
             if gs.checkMate:

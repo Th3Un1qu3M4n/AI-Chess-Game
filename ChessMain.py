@@ -48,8 +48,8 @@ def main():
     ROOT.withdraw()
 
     while True:
-        choice = simpledialog.askstring(title="Test",
-                                               prompt="Choose Your Desired Option: 1) Player vs AI 2) AI vs AI 3)Player vs Player")
+        choice = simpledialog.askstring(title="Options",
+                                               prompt="Choose Your Desired Option: \n1) Player vs AI \n2) AI vs AI \n3)Player vs Player")
 
         print(choice)
         if choice == '1':
