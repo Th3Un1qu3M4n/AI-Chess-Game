@@ -30,7 +30,9 @@ class GameState():
         self.checks = []
 
         self.currentCastlingRights = CastleRights(True, True, True, True)
-        self.castleRightsLog = [self.currentCastlingRights]
+        # self.castleRightsLog = [self.currentCastlingRights]
+        # Deep Copy Rights object
+        self.castleRightsLog = [CastleRights(self.currentCastlingRights.wks, self.currentCastlingRights.bks, self.currentCastlingRights.wqs, self.currentCastlingRights.bqs)]
 
     # Simple Chess Moves:
 
@@ -98,6 +100,18 @@ class GameState():
             if move.pieceMoved[1] == 'P' and abs(move.startRow - move.endRow) == 2:
                 self.enpassantPossible = ()
     def updateCastleRights(self, move):
+        if move.pieceMoved == 'wK':
+            self.currentCastlingRights.wks = False
+            self.currentCastlingRights.wqs = False
+        elif move.pieceMoved == 'bK':
+            self.currentCastlingRights.bks = False
+            self.currentCastlingRights.bqs = False
+        elif move.pieceMoved == 'wR':
+            if move.startRow == 7:
+                if move.startCol == 0:
+                    self.currentCastlingRights.wqs = False
+                elif move.startCol == 7:
+                    self.currentCastlingRights.wks = False
         pass
 
 
