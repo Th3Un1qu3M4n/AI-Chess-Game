@@ -21,7 +21,7 @@ class GameState():
         self.blackKingLocation = (0, 4)
         self.possibleMoveFunctions = {'P': self.getPawnMoves, 'N': self.getKnightMoves, 'B': self.getBishopMoves,
                                       'R': self.getRookMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
-        self.enpassantPossible = ()  # the square for enpasant possible
+        self.enpassantPossible = ()  # the square for enpassant possible
         self.checkMate = False
         self.staleMate = False
 
@@ -57,11 +57,19 @@ class GameState():
 
             ROOT.withdraw()
             # the input dialog
-            promotedPiece = simpledialog.askstring(title="Test",
-                                              prompt="Promote Pawn(P) to Queen(Q), Rook(R), Bishop(B), or Knight(N):")
 
-            # promotedPiece = input("\n\nPromote Pawn(P) to Queen(Q), Rook(R), Bishop(B), or Knight(N): ")
-            self.board[move.endRow][move.endCol] = move.pieceMoved[0] + promotedPiece
+            while True:
+                promotedPiece = simpledialog.askstring(title="Test",
+                                                  prompt="Promote Pawn(P) to Queen(Q), Rook(R), Bishop(B), or Knight(N):")
+
+                print(promotedPiece)
+                promotion = ['Q', 'R', 'B', 'N']
+                if promotedPiece in promotion:
+                    self.board[move.endRow][move.endCol] = move.pieceMoved[0] + promotedPiece
+                    break
+                else:
+                    print("invalid Promotion")
+
 
         # Update Enpassant Variable only if Pawn Moves Two Squares:
         if move.pieceMoved[1] == 'P' and abs(move.startRow - move.endRow) == 2:
