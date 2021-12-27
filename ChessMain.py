@@ -1,6 +1,9 @@
 # import pygame as pg
 import pygame
 import ChessEngine
+import AI
+import tkinter as tk
+from tkinter import simpledialog
 pygame.init()
 
 #
@@ -39,9 +42,39 @@ def main():
     sqselected = ()
     playerClicks = []
     gameOver = False
+    player1 = True
+    player2 = False
+
+    # ROOT = tk.Tk()
+    #
+    # ROOT.withdraw()
+    #
+    # while True:
+    #     choice = simpledialog.askstring(title="Test",
+    #                                            prompt="Choose Your Desired Option: 1) Player vs AI 2) AI vs AI 3)Player vs Player")
+    #
+    #     print(choice)
+    #     if choice == '1':
+    #         player1 = True
+    #         player2 = False
+    #         break
+    #     elif choice == '2':
+    #         player1 = False
+    #         player2 = False
+    #         break
+    #     elif choice == '3':
+    #         player1 = True
+    #         player2 = True
+    #         break
+    #     else:
+    #         print("invalid Choice")
+
+
+
     print("\nPlayer White Turn")
     while running:
 
+        userTurn = (gs.whiteToMove and player1) or (not gs.whiteToMove and player2)
         # Did the user click the window close button?
 
         for event in pygame.event.get():
@@ -51,7 +84,7 @@ def main():
 
             #mouse click to select a piece
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if not gameOver:
+                if not gameOver and userTurn:
                     location = pygame.mouse.get_pos()
                     col = location[0]//SQ_SIZE
                     row = location[1]//SQ_SIZE
@@ -95,6 +128,13 @@ def main():
                     moveMade = False
                     doAnimate = False
                     gameOver = False
+
+        #AI
+        if not gameOver and not userTurn:
+            AIMove = AI.findRandomMove(validMoves)
+            gs.makeMove(AIMove)
+            moveMade = True
+            doAnimate = True
 
         # Generating new possible moves after a move
         if moveMade:
