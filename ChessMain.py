@@ -158,7 +158,7 @@ def animateMove(move, screen, board, clock):
     global colors
     deltaR = move.endRow - move.startRow
     deltaC = move.endCol - move.startCol
-    fps = 10
+    fps = 6
     frameCount = (abs(deltaR) + abs(deltaC)) * fps
 
     for frame in range(frameCount+1):
