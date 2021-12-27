@@ -124,9 +124,10 @@ def main():
             if gs.whiteToMove:
                 drawText(screen, "Check Mate !! Black Wins")
             else:
-                drawText(screen, "Check Mate !! Black Wins")
+                drawText(screen, "Check Mate !! White Wins")
         elif gs.staleMate:
             gameOver = True
+            drawText(screen, "Stale Mate !! Match Draws")
 
         clock.tick(MAX_FPS)
 
