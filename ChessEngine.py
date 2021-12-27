@@ -75,6 +75,7 @@ class GameState():
             self.board[move.startRow][move.endCol] = '--'
 
         self.updateCastleRights(move)
+        self.castleRightsLog.append(CastleRights(self.currentCastlingRights.wks, self.currentCastlingRights.bks, self.currentCastlingRights.wqs, self.currentCastlingRights.bqs))
 
     def undoMove(self):
 
@@ -99,6 +100,11 @@ class GameState():
             # Undo the captured
             if move.pieceMoved[1] == 'P' and abs(move.startRow - move.endRow) == 2:
                 self.enpassantPossible = ()
+
+            # undo Castle Rights
+            self.castleRightsLog.pop()
+            self.currentCastlingRights = self.castleRightsLog[-1]
+
     def updateCastleRights(self, move):
         if move.pieceMoved == 'wK':
             self.currentCastlingRights.wks = False
