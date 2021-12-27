@@ -118,15 +118,15 @@ def main():
 
         # Draw Game State
         draw_game_state(screen, gs, validMoves, sqselected)
-        #
-        # if gs.checkMate:
-        #     gameOver = True
-        #     if gs.whiteToMove:
-        #         drawText(screen, "Check Mate !! Black Wins")
-        #     else:
-        #         drawText(screen, "Check Mate !! Black Wins")
-        # elif gs.staleMate:
-        #     gameOver = True
+
+        if gs.checkMate:
+            gameOver = True
+            if gs.whiteToMove:
+                drawText(screen, "Check Mate !! Black Wins")
+            else:
+                drawText(screen, "Check Mate !! Black Wins")
+        elif gs.staleMate:
+            gameOver = True
 
         clock.tick(MAX_FPS)
 
