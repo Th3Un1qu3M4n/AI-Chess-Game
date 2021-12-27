@@ -42,32 +42,30 @@ def main():
     sqselected = ()
     playerClicks = []
     gameOver = False
-    player1 = True
-    player2 = False
 
-    # ROOT = tk.Tk()
-    #
-    # ROOT.withdraw()
-    #
-    # while True:
-    #     choice = simpledialog.askstring(title="Test",
-    #                                            prompt="Choose Your Desired Option: 1) Player vs AI 2) AI vs AI 3)Player vs Player")
-    #
-    #     print(choice)
-    #     if choice == '1':
-    #         player1 = True
-    #         player2 = False
-    #         break
-    #     elif choice == '2':
-    #         player1 = False
-    #         player2 = False
-    #         break
-    #     elif choice == '3':
-    #         player1 = True
-    #         player2 = True
-    #         break
-    #     else:
-    #         print("invalid Choice")
+    ROOT = tk.Tk()
+
+    ROOT.withdraw()
+
+    while True:
+        choice = simpledialog.askstring(title="Test",
+                                               prompt="Choose Your Desired Option: 1) Player vs AI 2) AI vs AI 3)Player vs Player")
+
+        print(choice)
+        if choice == '1':
+            player1 = True
+            player2 = False
+            break
+        elif choice == '2':
+            player1 = False
+            player2 = False
+            break
+        elif choice == '3':
+            player1 = True
+            player2 = True
+            break
+        else:
+            print("invalid Choice")
 
 
 
