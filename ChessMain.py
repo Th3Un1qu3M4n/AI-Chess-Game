@@ -38,6 +38,7 @@ def main():
     doAnimate = False
     sqselected = ()
     playerClicks = []
+    gameOver = False
     print("\nPlayer White Turn")
     while running:
 
@@ -50,40 +51,42 @@ def main():
 
             #mouse click to select a piece
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                location = pygame.mouse.get_pos()
-                col = location[0]//SQ_SIZE
-                row = location[1]//SQ_SIZE
-                if sqselected == (row, col):
-                    sqselected = ()
-                    playerClicks = []
-                else:
-                    sqselected = (row, col)
-                    playerClicks.append(sqselected)
-                if len(playerClicks) == 2:
-                    move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
-                    print(move.getChessNotation())
-                    print("Possible moves: ")
-                    for temp in validMoves:
-                            print(temp.getChessNotation(), end=", ")
+                if not gameOver:
+                    location = pygame.mouse.get_pos()
+                    col = location[0]//SQ_SIZE
+                    row = location[1]//SQ_SIZE
+                    if sqselected == (row, col):
+                        sqselected = ()
+                        playerClicks = []
+                    else:
+                        sqselected = (row, col)
+                        playerClicks.append(sqselected)
+                    if len(playerClicks) == 2:
+                        move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                        print(move.getChessNotation())
+                        print("Possible moves: ")
+                        for temp in validMoves:
+                                print(temp.getChessNotation(), end=", ")
 
-                    for i in range(len(validMoves)):
-                        if move == validMoves[i]:
-                            gs.makeMove(validMoves[i])
-                            moveMade = True
-                            doAnimate = True
-                            sqselected = ()
-                            playerClicks = []
+                        for i in range(len(validMoves)):
+                            if move == validMoves[i]:
+                                gs.makeMove(validMoves[i])
+                                moveMade = True
+                                doAnimate = True
+                                sqselected = ()
+                                playerClicks = []
 
-                    if not moveMade:
-                        playerClicks = [sqselected]
+                        if not moveMade:
+                            playerClicks = [sqselected]
 
-            #using key 'Z' to undo a move
+            #using key 'Z' to undo a move and 'R' to reset Game
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_z:
                     gs.undoMove()
                     print("\nUndoing Move\n")
                     moveMade = True
                     doAnimate = False
+
                 if event.key == pygame.K_r:
                     gs = ChessEngine.GameState()
                     validMoves = gs.getValidMoves()
@@ -91,12 +94,20 @@ def main():
                     playerClicks = []
                     moveMade = False
                     doAnimate = False
+                    gameOver = False
 
         # Generating new possible moves after a move
         if moveMade:
             if doAnimate:
                 animateMove(gs.moveLog[-1], screen, gs.board, clock)
             validMoves = gs.getValidMoves()
+
+            if len(gs.getValidMoves()) == 0:
+                if gs.inCheck:
+                    gs.checkMate = True
+                else:
+                    gs.staleMate = True
+
             if(gs.whiteToMove):
                 print("\n\nPlayer White Turn")
             else:
@@ -107,6 +118,16 @@ def main():
 
         # Draw Game State
         draw_game_state(screen, gs, validMoves, sqselected)
+        #
+        # if gs.checkMate:
+        #     gameOver = True
+        #     if gs.whiteToMove:
+        #         drawText(screen, "Check Mate !! Black Wins")
+        #     else:
+        #         drawText(screen, "Check Mate !! Black Wins")
+        # elif gs.staleMate:
+        #     gameOver = True
+
         clock.tick(MAX_FPS)
 
         # Flip the display
@@ -155,6 +176,11 @@ def animateMove(move, screen, board, clock):
         pygame.display.flip()
         clock.tick(60)
 
+def drawText(screen, text):
+    font = pygame.font.SysFont("Helvitica", 32, True, False)
+    textObject = font.render(text, 0, pygame.Color('black'))
+    textLocation = pygame.Rect( 0, 0, WIDTH, HEIGHT).move(WIDTH/2 - textObject.get_width()/2, HEIGHT/2 - textObject.get_height()/2)
+    screen.blit(textObject, textLocation)
 
 def draw_game_state(screen, gs, validMoves, sqSelected):
 
