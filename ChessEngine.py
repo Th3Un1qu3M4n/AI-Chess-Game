@@ -1,3 +1,6 @@
+import tkinter as tk
+from tkinter import simpledialog
+
 class GameState():
     def __init__(self):
 
@@ -45,7 +48,14 @@ class GameState():
 
         # For Pawn Promotion:
         if move.isPawnPromotion:
-            promotedPiece = input("\n\nPromote Pawn(P) to Queen(Q), Rook(R), Bishop(B), or Knight(N): ")
+            ROOT = tk.Tk()
+
+            ROOT.withdraw()
+            # the input dialog
+            promotedPiece = simpledialog.askstring(title="Test",
+                                              prompt="Promote Pawn(P) to Queen(Q), Rook(R), Bishop(B), or Knight(N):")
+
+            # promotedPiece = input("\n\nPromote Pawn(P) to Queen(Q), Rook(R), Bishop(B), or Knight(N): ")
             self.board[move.endRow][move.endCol] = move.pieceMoved[0] + promotedPiece
 
         # Update Enpassant Variable only if Pawn Moves Two Squares:
@@ -369,6 +379,8 @@ class GameState():
                         self.whiteKingLocation = (endRow, endCol)
                     else:
                         self.blackKingLocation = (endRow, endCol)
+                        # print("black King changed to ", self.blackKingLocation)
+                        print(rowMoves[k_move], colMoves[k_move])
 
                     inCheck, pins, checks = self. checkForPinsAndChecks()
 
@@ -379,6 +391,7 @@ class GameState():
                         self.whiteKingLocation = (row, col)
                     else:
                         self.blackKingLocation = (row, col)
+                        # print("black King changed BACK to ", self.blackKingLocation)
 
 
     def checkForPinsAndChecks(self):
@@ -396,7 +409,8 @@ class GameState():
             startRow = self.blackKingLocation[0]
             startCol = self.blackKingLocation[1]
 
-        directions = ((-1, -1), (-1, 0), (-1, 1), (1, -1), (1, 0), (1, 1), (0, -1), (0, 1))
+        # directions = ((-1, -1), (-1, 0), (-1, 1), (1, -1), (1, 0), (1, 1), (0, -1), (0, 1))
+        directions = ((-1, 0), (0, -1), (1, 0), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1))
         for j in range(len(directions)):
             d = directions[j]
             possiblePin = ()
@@ -413,15 +427,18 @@ class GameState():
                             break
                     elif endPiece[0] == enemyColor:
                         type = endPiece[1]
-                        print(startRow, startCol," enemy found in direction ", d[0], d[1], type, endRow, endCol)
+                        # print("Black King location", self.blackKingLocation)
+                        print(startRow, startCol," enemy found in direction ", d[0], d[1], enemyColor, type, endRow, endCol, i, j)
+                        # print((i == 1 and type == 'P' and ((enemyColor == 'w' and 6 <= j <= 7) or (enemyColor == 'b' and 4 <= j <= 5))))
                         # if enemy piece found near King
                         if ( 0<= j <=3  and type == 'R') or \
                             ( 4 <= j <=7 and type == 'B') or \
-                            (i == 1 and type == ' p' and ((enemyColor == 'w' and 6 <= j <= 7) or (enemyColor == 'b' and 4 <= j <= 5) )) or \
+                            (i == 1 and type == 'P' and ((enemyColor == 'w' and 6 <= j <= 7) or (enemyColor == 'b' and 4 <= j <= 5) )) or \
                             (type == 'Q') or \
                             (i==1 and type == 'K'):
                             if possiblePin == ():
                                 inCheck = True  # if enemy directly in range of King
+                                print("king in check by: ", enemyColor, type, endRow, endCol)
                                 checks.append((endRow, endCol, d[0], d[1]))
                                 break
                             else:
