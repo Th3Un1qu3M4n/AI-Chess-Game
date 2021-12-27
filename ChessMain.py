@@ -35,6 +35,7 @@ def main():
     # Run until the user asks to quit
 
     running = True
+    doAnimate = False
     sqselected = ()
     playerClicks = []
     print("\nPlayer White Turn")
@@ -69,6 +70,7 @@ def main():
                         if move == validMoves[i]:
                             gs.makeMove(validMoves[i])
                             moveMade = True
+                            doAnimate = True
                             sqselected = ()
                             playerClicks = []
 
@@ -81,9 +83,12 @@ def main():
                     gs.undoMove()
                     print("\nUndoing Move\n")
                     moveMade = True
+                    doAnimate = False
 
         # Generating new possible moves after a move
         if moveMade:
+            if doAnimate:
+                animateMove(gs.moveLog[-1], screen, gs.board, clock)
             validMoves = gs.getValidMoves()
             if(gs.whiteToMove):
                 print("\n\nPlayer White Turn")
@@ -105,6 +110,7 @@ def main():
 
     pygame.quit()
 
+
 def highlightSquares(screen, gs, validMoves, sqSelected):
     if sqSelected != ():
         row, col = sqSelected
@@ -117,6 +123,31 @@ def highlightSquares(screen, gs, validMoves, sqSelected):
             for move in validMoves:
                 if move.startRow == row and move.startCol == col:
                     screen.blit(title, (move.endCol*SQ_SIZE, move.endRow*SQ_SIZE))
+
+
+def animateMove(move, screen, board, clock):
+    global colors
+    deltaR = move.endRow - move.startRow
+    deltaC = move.endCol - move.startCol
+    fps = 10
+    frameCount = (abs(deltaR) + abs(deltaC)) * fps
+
+    for frame in range(frameCount+1):
+        frameRatio = frame/frameCount
+        row, col = (move.startRow +deltaR*frameRatio, move.startCol + deltaC*frameRatio)
+        draw_board(screen)
+        draw_pieces(screen, board)
+        color = colors[(move.endRow + move.endCol) % 2]
+        endSqr = pygame.Rect(move.endCol*SQ_SIZE, move.endRow*SQ_SIZE, SQ_SIZE, SQ_SIZE)
+        pygame.draw.rect(screen, color, endSqr)
+
+        if move.pieceCaptured != '--':
+            screen.blit(IMAGES[move.pieceCaptured], endSqr)
+
+        screen.blit(IMAGES[move.pieceMoved], pygame.Rect(col*SQ_SIZE, row*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+        pygame.display.flip()
+        clock.tick(60)
+
 
 def draw_game_state(screen, gs, validMoves, sqSelected):
 
@@ -131,6 +162,7 @@ def draw_game_state(screen, gs, validMoves, sqSelected):
 #
 #
 def draw_board(screen):
+    global colors
     colors = [pygame.Color("#eeeed2"), pygame.Color("#769656")]
     # colors = [pygame.Color("white"), pygame.Color("grey")]
 
