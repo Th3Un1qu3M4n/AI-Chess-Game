@@ -149,6 +149,18 @@ class GameState():
                     self.currentCastlingRights.bqs = False
                 elif move.startCol == 7:
                     self.currentCastlingRights.bks = False
+        if move.pieceCaptured == 'wR':
+            if move.startRow == 7:
+                if move.startCol == 0:
+                    self.currentCastlingRights.wqs = False
+                elif move.startCol == 7:
+                    self.currentCastlingRights.wks = False
+        elif move.pieceCaptured == 'bR':
+            if move.startRow == 0:
+                if move.startCol == 0:
+                    self.currentCastlingRights.bqs = False
+                elif move.startCol == 7:
+                    self.currentCastlingRights.bks = False
 
 
 
