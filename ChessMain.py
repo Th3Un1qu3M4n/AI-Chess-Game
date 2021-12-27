@@ -94,7 +94,7 @@ def main():
             print("staleMate:", gs.staleMate)
 
         # Draw Game State
-        draw_game_state(screen, gs)
+        draw_game_state(screen, gs, validMoves, sqselected)
         clock.tick(MAX_FPS)
 
         # Flip the display
@@ -105,10 +105,24 @@ def main():
 
     pygame.quit()
 
-def draw_game_state(screen, gs):
+def highlightSquares(screen, gs, validMoves, sqSelected):
+    if sqSelected != ():
+        row, col = sqSelected
+        if gs.board[row][col][0] == ('w' if gs.whiteToMove else 'b'):
+            title = pygame.Surface((SQ_SIZE, SQ_SIZE))
+            title.set_alpha(100) # range 0 -255
+            title.fill(pygame.Color('blue'))
+            screen.blit(title, (col*SQ_SIZE, row*SQ_SIZE))
+            title.fill(pygame.Color('Yellow'))
+            for move in validMoves:
+                if move.startRow == row and move.startCol == col:
+                    screen.blit(title, (move.endCol*SQ_SIZE, move.endRow*SQ_SIZE))
+
+def draw_game_state(screen, gs, validMoves, sqSelected):
 
     # drawing simple squares
     draw_board(screen)
+    highlightSquares(screen, gs, validMoves, sqSelected)
 
     # draw pieces on top of board
     draw_pieces(screen, gs.board)
