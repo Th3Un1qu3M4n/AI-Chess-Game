@@ -84,6 +84,13 @@ def main():
                     print("\nUndoing Move\n")
                     moveMade = True
                     doAnimate = False
+                if event.key == pygame.K_r:
+                    gs = ChessEngine.GameState()
+                    validMoves = gs.getValidMoves()
+                    sqselected = ()
+                    playerClicks = []
+                    moveMade = False
+                    doAnimate = False
 
         # Generating new possible moves after a move
         if moveMade:
