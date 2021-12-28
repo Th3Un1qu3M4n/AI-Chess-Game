@@ -5,6 +5,8 @@ CHECKMATE = 1000
 STALEMATE = 0
 DEPTH = 3
 
+Promotions = ['Q', 'B', 'R', 'N']
+
 def findRandomMove(validMoves):
     return validMoves[random.randint(0, len(validMoves)-1)]
 
@@ -28,6 +30,9 @@ def bestAlphaBetaMinMaxMove(gs, validMoves, depth, alpha, beta, turn):
 
     maxScore = -CHECKMATE
     for move in validMoves:
+        if move.isPawnPromotion:
+            move.AIPlaying = True
+            move.AIPromotionKey = Promotions[random.randint(0, len(Promotions) - 1)]
         gs.makeMove(move)
         nextMoves = gs.getValidMoves()
         score = -bestAlphaBetaMinMaxMove(gs, nextMoves, depth - 1, -beta, -alpha, -turn)
