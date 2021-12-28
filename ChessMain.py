@@ -3,6 +3,7 @@ import pygame
 import ChessEngine
 import AI
 import tkinter as tk
+from tkinter import *
 from tkinter import simpledialog
 pygame.init()
 
@@ -47,14 +48,16 @@ def main():
 
     ROOT.withdraw()
 
+    # chess_instruction()
+
     while True:
         choice = simpledialog.askstring(title="Options",
-                                               prompt="Choose Your Desired Option: \n1) Player vs AI \n2) AI vs AI \n3)Player vs Player")
+                                               prompt="Choose Your Desired Option: \n1) Player vs AI \n2) AI vs AI \n3)Player vs Player \n4)View Instructions")
 
         print(choice)
         if choice == '1':
-            player1 = False
-            player2 = True
+            player1 = True
+            player2 = False
             break
         elif choice == '2':
             player1 = False
@@ -64,6 +67,9 @@ def main():
             player1 = True
             player2 = True
             break
+        elif choice == '4':
+            # chess_instruction()
+            pass
         else:
             print("invalid Choice")
 
@@ -254,6 +260,71 @@ def draw_pieces(screen, board):
             if piece != "--":
                 screen.blit(IMAGES[piece], pygame.Rect(col*SQ_SIZE, row*SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
+def chess_instruction():
+    r = Toplevel()
+    r.title("Rules and Instructions")
+    r.canvas_width = 800
+    r.canvas_height = 800
+    r1 = Canvas(r, bg="black", width=r.canvas_width, height=r.canvas_height)
+    r1.pack()
+    # r_img = PhotoImage(file="bg/rules.png")
+    # r1.create_image(-100, 0, anchor=NW, image=r_img)
+    r1.create_text(400, 70, fill="snow", font="Times 30 bold", text="Rules And Instructions")
+    r1.create_text(80, 120, fill="snow", font="Times 20 bold", text="Instructions:")
+    r1.create_text(150, 145, fill="snow", font="Calibri 10 bold", text="1: There are two players: Black & White")
+    r1.create_text(269, 160, fill="snow", font="Calibri 10 bold",
+                   text="2: The computer (AI) is given Black color by default meaning you have White pieces.")
+    r1.create_text(180, 175, fill="snow", font="Calibri 10 bold",
+                   text="3: The White player will always have the first turn.")
+    r1.create_text(375, 190, fill="snow", font="Calibri 10 bold",
+                   text="4: In order to move the piece, you will have to type its coordinates in the format (row-column). For example: if you need ")
+    r1.create_text(295, 205, fill="snow", font="Calibri 10 bold",
+                   text="to move a piece to '8a', then write it as '8a' (without any space, with lowercase letter).")
+    r1.create_text(42, 240, fill="snow", font="Times 20 bold", text="Rules:")
+    r1.create_text(150, 265, fill="snow", font="Calibri 10 bold", text="1: There are 6 different pieces in chess:")
+    r1.create_text(145, 280, fill="snow", font="Calibri 10 bold", text="a: Rook (worth 5 points)")
+    r1.create_text(148, 295, fill="snow", font="Calibri 10 bold", text="b: Knight (worth 3 points)")
+    r1.create_text(150, 310, fill="snow", font="Calibri 10 bold", text="c: Bishop (worth 3 points)")
+    r1.create_text(150, 325, fill="snow", font="Calibri 10 bold", text="d: Queen (worth 9 points)")
+    r1.create_text(158, 340, fill="snow", font="Calibri 10 bold", text="e: King (worth infinite points)")
+    r1.create_text(148, 355, fill="snow", font="Calibri 10 bold", text="f: Pawn (worth 1 points)")
+    r1.create_text(80, 380, fill="snow", font="Calibri 10 bold", text="2: Basic Moves:")
+    r1.create_text(430, 395, fill="snow", font="Calibri 10 bold",
+                   text="A: Queen Moves: The Queen can move any number of squares in horizontal, vertical or diagonal direction as long as the path is not ")
+    r1.create_text(180, 410, fill="snow", font="Calibri 10 bold", text="blocked by one of its own pieces.")
+    r1.create_text(435, 425, fill="snow", font="Calibri 10 bold",
+                   text="B: Rook Moves: The Rook can moveee any number of squares horizontally or vertically as long as the path is not blocked by one of its ")
+    r1.create_text(120, 440, fill="snow", font="Calibri 10 bold", text="own pieces.")
+    r1.create_text(370, 455, fill="snow", font="Calibri 10 bold",
+                   text="C: Bishop Moves: The Bishop can move any number of squares diagonally as long as the path is not blocked by ")
+    r1.create_text(148, 470, fill="snow", font="Calibri 10 bold", text="one of its own pieces.")
+    r1.create_text(425, 485, fill="snow", font="Calibri 10 bold",
+                   text="D: Knight Moves: The Knight can move in 'L-shape'. It can either move two squares horizontally and one vertically or two vertically")
+    r1.create_text(337, 500, fill="snow", font="Calibri 10 bold",
+                   text="and one horizontally. If its path is blocked by its own teammate, it can simply jump over it.")
+    r1.create_text(330, 515, fill="snow", font="Calibri 10 bold",
+                   text="E: King Moves: The King can move one square in any direction (horizontal, vertical or diagonal).")
+    r1.create_text(373, 530, fill="snow", font="Calibri 10 bold",
+                   text="F: Pawn Moves: The pawn can move only in forward direction. On the first move it can move two squares at a ")
+    r1.create_text(395, 545, fill="snow", font="Calibri 10 bold",
+                   text="time while one square at a time on the remaining moves. Furthermore, it cannmot aattack an opponents piece ")
+    r1.create_text(340, 560, fill="snow", font="Calibri 10 bold",
+                   text="in forward direction. It can only do that in upper diagonals (top-left and top-right) direction.")
+    r1.create_text(355, 590, fill="snow", font="Calibri 10 bold",
+                   text="3: Checkmate: Checkmate condition is achieved when King's every possible move is threathened by the opponents ")
+    r1.create_text(160, 605, fill="snow", font="Calibri 10 bold", text="pieces. This leads to a victory.")
+    r1.create_text(352, 630, fill="snow", font="Calibri 10 bold",
+                   text="4: Stalemate: When the King is not in Check but there is no such move which won't lead to the King being in check.")
+    r1.create_text(135, 645, fill="snow", font="Calibri 10 bold", text=" This leads to a draw.")
+    r1.create_text(315, 670, fill="snow", font="Calibri 10 bold",
+                   text="5: Illegal Moves: Such moves that lead you king in check. There aren't allowed in our implementation.")
+    r1.create_text(383, 695, fill="snow", font="Calibri 10 bold",
+                   text="6: Special Move (Castling): Each player can castle only once . In castling, the player moves his King two squares either to its left ")
+    r1.create_text(410, 710, fill="snow", font="Calibri 10 bold",
+                   text="or right toward one of his Rooks. At the same time, the Rook involved goes to the square on the other side of the King.")
+
+    r1.update()
+    r1.mainloop()
 
 if __name__ == '__main__':
     main()
