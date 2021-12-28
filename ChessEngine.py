@@ -132,7 +132,7 @@ class GameState():
 
             # undo Castle Move
             if move.isCastleMove:
-                print("Is castle Move")
+                
                 if move.endCol - move.startCol == 2:  # King side Castle
                     self.board[move.endRow][move.endCol + 1] = self.board[move.endRow][move.endCol - 1]
                     # print(move.endRow, move.endCol + 1, " from ", move.endRow, move.endCol -1)
