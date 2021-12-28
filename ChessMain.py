@@ -117,6 +117,7 @@ def main():
                     print("\nUndoing Move\n")
                     moveMade = True
                     doAnimate = False
+                    gameOver = False
 
                 if event.key == pygame.K_r:
                     gs = ChessEngine.GameState()
@@ -129,7 +130,7 @@ def main():
 
         #AI
         if not gameOver and not userTurn:
-            AIMove = AI.findBestMove(gs, validMoves)
+            AIMove = AI.findBestMinMaxMove(gs, validMoves)
             if AIMove is None:
                 AIMove = AI.findRandomMove(validMoves)
             gs.makeMove(AIMove)
