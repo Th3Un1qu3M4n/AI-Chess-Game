@@ -536,7 +536,7 @@ class GameState():
             if 0 <= endRow < 8 and 0 <= endCol < 8:
                 endPiece = self.board[endRow][endCol]
                 if endPiece[0] == enemyColor and endPiece[1] == 'N':
-                    isCheck = True
+                    inCheck = True
                     checks.append((endRow, endCol, m[0], m[1]))
         return inCheck, pins, checks
 

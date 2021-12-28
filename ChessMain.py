@@ -284,7 +284,7 @@ def chess_instruction():
     r1.create_text(148, 295, fill="snow", font="Calibri 10 bold", text="b: Knight (worth 3 points)")
     r1.create_text(150, 310, fill="snow", font="Calibri 10 bold", text="c: Bishop (worth 3 points)")
     r1.create_text(150, 325, fill="snow", font="Calibri 10 bold", text="d: Queen (worth 10 points)")
-    r1.create_text(158, 340, fill="snow", font="Calibri 10 bold", text="e: King (worth 0 points)")
+    r1.create_text(158, 340, fill="snow", font="Calibri 10 bold", text="e: King (worth 1000 points)")
     r1.create_text(148, 355, fill="snow", font="Calibri 10 bold", text="f: Pawn (worth 1 points)")
     r1.create_text(80, 380, fill="snow", font="Calibri 10 bold", text="2: Basic Moves:")
     r1.create_text(430, 395, fill="snow", font="Calibri 10 bold",
