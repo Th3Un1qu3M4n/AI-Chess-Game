@@ -51,9 +51,9 @@ def findBestMove(gs, validMoves):
     global nextMove
     nextMove = None
     if gs.whiteToMove:
-        bestMinMaxMove(gs, validMoves, DEPTH, 1)
+        bestAlphaBetaMinMaxMove(gs, validMoves, DEPTH, -CHECKMATE, CHECKMATE, 1)
     else:
-        bestMinMaxMove(gs, validMoves, DEPTH, -1)
+        bestAlphaBetaMinMaxMove(gs, validMoves, DEPTH, -CHECKMATE, CHECKMATE, -1)
     return nextMove
 
 # def bestMinMaxMove(gs, validMoves, depth, turn):
@@ -83,12 +83,17 @@ def bestAlphaBetaMinMaxMove(gs, validMoves, depth, alpha, beta, turn):
     for move in validMoves:
         gs.makeMove(move)
         nextMoves = gs.getValidMoves()
-        score = -bestMinMaxMove(gs, nextMoves, depth - 1, -turn)
+        score = -bestAlphaBetaMinMaxMove(gs, nextMoves, depth - 1, -beta, -alpha, -turn)
         if score > maxScore:
             maxScore = score
             if depth == DEPTH:
                 nextMove = move
         gs.undoMove()
+
+        if maxScore > alpha:
+            alpha = maxScore
+        if alpha >= beta:
+            break
     return maxScore
 
 
