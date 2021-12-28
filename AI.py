@@ -3,6 +3,7 @@ import random
 pieceScore = {"K": 0, "Q": 10, "R": 5, "B": 3, "N": 3, "P": 1}
 CHECKMATE = 1000
 STALEMATE = 0
+depth = 2
 
 def findRandomMove(validMoves):
     return validMoves[random.randint(0, len(validMoves)-1)]
@@ -45,6 +46,20 @@ def findBestMove(gs, validMoves):
         gs.undoMove()
 
     return bestPlayerMove
+
+def findBestMinMaxMove(gs, validMoves):
+    global nextMove
+    nextMove = None
+    bestMinMaxMove(gs, validMoves, depth, gs.whiteToMove)
+    return nextMove
+
+def bestMinMaxMove(gs, validMoves, depth, whiteToMove):
+    global nextMove
+    if depth == 0:
+        return scoreMaterial(gs.board)
+
+# def scoreBoard(gs):
+
 
 def scoreMaterial(board):
     score = 0
