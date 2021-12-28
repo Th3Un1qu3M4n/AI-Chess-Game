@@ -48,8 +48,8 @@ def main():
     ROOT.withdraw()
 
     while True:
-        choice = simpledialog.askstring(title="Test",
-                                               prompt="Choose Your Desired Option: 1) Player vs AI 2) AI vs AI 3)Player vs Player")
+        choice = simpledialog.askstring(title="Options",
+                                               prompt="Choose Your Desired Option: \n1) Player vs AI \n2) AI vs AI \n3)Player vs Player")
 
         print(choice)
         if choice == '1':
@@ -93,7 +93,7 @@ def main():
                         sqselected = (row, col)
                         playerClicks.append(sqselected)
                     if len(playerClicks) == 2:
-                        move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                        move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board, player1, player2)
                         print(move.getChessNotation())
                         print("Possible moves: ")
                         for temp in validMoves:
@@ -129,7 +129,9 @@ def main():
 
         #AI
         if not gameOver and not userTurn:
-            AIMove = AI.findRandomMove(validMoves)
+            AIMove = AI.findBestMove(gs, validMoves)
+            if AIMove is None:
+                AIMove = AI.findRandomMove(validMoves)
             gs.makeMove(AIMove)
             moveMade = True
             doAnimate = True
