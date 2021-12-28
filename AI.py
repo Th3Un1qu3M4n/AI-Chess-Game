@@ -23,7 +23,7 @@ def findBestMove(gs, validMoves):
 def bestAlphaBetaMinMaxMove(gs, validMoves, depth, alpha, beta, turn):
     global nextMove
     if depth == 0:
-        return turn * scoreMaterial(gs.board)
+        return turn * scoreBoard(gs)
 
     maxScore = -CHECKMATE
     for move in validMoves:
