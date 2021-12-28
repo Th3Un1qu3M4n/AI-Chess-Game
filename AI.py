@@ -43,37 +43,6 @@ def bestAlphaBetaMinMaxMove(gs, validMoves, depth, alpha, beta, turn):
     return maxScore
 
 
-# def bestMinMaxMove(gs, validMoves, depth, whiteToMove):
-#     global nextMove
-#     if depth == 0:
-#         return scoreMaterial(gs.board)
-#
-#     if whiteToMove:
-#         maxScore = -CHECKMATE
-#         for move in validMoves:
-#             gs.makeMove(move)
-#             nextMoves = gs.getValidMoves()
-#             score = bestMinMaxMove(gs, nextMoves, depth - 1, False)
-#             if score > maxScore:
-#                 maxScore = score
-#                 if depth == DEPTH:
-#                     nextMove = move
-#             gs.undoMove()
-#         return maxScore
-#     else:
-#         minScore = CHECKMATE
-#         for move in validMoves:
-#             gs.makeMove(move)
-#             nextMoves = gs.getValidMoves()
-#             score = bestMinMaxMove(gs, nextMoves, depth - 1, True)
-#             if score < minScore:
-#                 minScore = score
-#                 if depth == DEPTH:
-#                     nextMove = move
-#             gs.undoMove()
-#         return minScore
-#
-
 def scoreBoard(gs):
 
     if gs.checkMate:
