@@ -31,7 +31,7 @@ def main():
     screen.fill(pygame.Color("white"))
     gs = ChessEngine.GameState()
     validMoves = gs.getValidMoves()
-    moveMade = False #used to chk whether to regenrate the validMoves function again or not based on the move performed
+    moveMade = False  # used to chk whether to regenrate the validMoves function again or not based on the move performed
 
     # load images before starting game
     load_images()
@@ -44,16 +44,16 @@ def main():
     playerClicks = []
     gameOver = False
 
-    ROOT = tk.Tk()
-
-    ROOT.withdraw()
-
     # chess_instruction()
 
     while True:
-        choice = simpledialog.askstring(title="Options",
-                                               prompt="Choose Your Desired Option: \n1) Player vs AI \n2) AI vs AI \n3)Player vs Player \n4)View Instructions")
+        ROOT = tk.Tk()
 
+        ROOT.withdraw()
+
+        choice = simpledialog.askstring(title="Options",
+                                               prompt="Choose Your Desired Option: \n1) Player vs AI \n2) AI vs AI \n3)Player vs Player")
+        chess_instruction()
         print(choice)
         if choice == '1':
             player1 = True
@@ -67,9 +67,6 @@ def main():
             player1 = True
             player2 = True
             break
-        elif choice == '4':
-            # chess_instruction()
-            pass
         else:
             print("invalid Choice")
 
@@ -265,7 +262,7 @@ def chess_instruction():
     r.title("Rules and Instructions")
     r.canvas_width = 800
     r.canvas_height = 800
-    r1 = Canvas(r, bg="black", width=r.canvas_width, height=r.canvas_height)
+    r1 = Canvas(r, bg="darkred", width=r.canvas_width, height=r.canvas_height)
     r1.pack()
     # r_img = PhotoImage(file="bg/rules.png")
     # r1.create_image(-100, 0, anchor=NW, image=r_img)
@@ -277,16 +274,14 @@ def chess_instruction():
     r1.create_text(180, 175, fill="snow", font="Calibri 10 bold",
                    text="3: The White player will always have the first turn.")
     r1.create_text(375, 190, fill="snow", font="Calibri 10 bold",
-                   text="4: In order to move the piece, you will have to type its coordinates in the format (row-column). For example: if you need ")
-    r1.create_text(295, 205, fill="snow", font="Calibri 10 bold",
-                   text="to move a piece to '8a', then write it as '8a' (without any space, with lowercase letter).")
+                   text="4: In order to move the piece, you will have to click the piece and then click the valid square you want to place that piece ")
     r1.create_text(42, 240, fill="snow", font="Times 20 bold", text="Rules:")
     r1.create_text(150, 265, fill="snow", font="Calibri 10 bold", text="1: There are 6 different pieces in chess:")
     r1.create_text(145, 280, fill="snow", font="Calibri 10 bold", text="a: Rook (worth 5 points)")
     r1.create_text(148, 295, fill="snow", font="Calibri 10 bold", text="b: Knight (worth 3 points)")
     r1.create_text(150, 310, fill="snow", font="Calibri 10 bold", text="c: Bishop (worth 3 points)")
-    r1.create_text(150, 325, fill="snow", font="Calibri 10 bold", text="d: Queen (worth 9 points)")
-    r1.create_text(158, 340, fill="snow", font="Calibri 10 bold", text="e: King (worth infinite points)")
+    r1.create_text(150, 325, fill="snow", font="Calibri 10 bold", text="d: Queen (worth 10 points)")
+    r1.create_text(158, 340, fill="snow", font="Calibri 10 bold", text="e: King (worth 0 points)")
     r1.create_text(148, 355, fill="snow", font="Calibri 10 bold", text="f: Pawn (worth 1 points)")
     r1.create_text(80, 380, fill="snow", font="Calibri 10 bold", text="2: Basic Moves:")
     r1.create_text(430, 395, fill="snow", font="Calibri 10 bold",
@@ -322,9 +317,18 @@ def chess_instruction():
                    text="6: Special Move (Castling): Each player can castle only once . In castling, the player moves his King two squares either to its left ")
     r1.create_text(410, 710, fill="snow", font="Calibri 10 bold",
                    text="or right toward one of his Rooks. At the same time, the Rook involved goes to the square on the other side of the King.")
+    r1.create_text(368, 735, fill="snow", font="Calibri 10 bold",
+                   text="7: Special Move (En-Passant): Each player can perform on the pawns. In en-passant, the player moves his pawn such that ")
+    r1.create_text(410, 750, fill="snow", font="Calibri 10 bold",
+                   text="it captures the opponents pawn that has moved two squares in its first move.")
+    r1.create_text(356, 775, fill="snow", font="Calibri 10 bold",
+                   text="8: Special Move (Pawn Promotion): Each player can perform on the pawns that have reached the last opposite row.")
+    r1.create_text(410, 790, fill="snow", font="Calibri 10 bold",
+                   text="The Pawn(P) can be promoted to either Queen(Q), Rook(R), Bishop(B), or Knight(N).")
 
     r1.update()
-    r1.mainloop()
+
+    return
 
 if __name__ == '__main__':
     main()
