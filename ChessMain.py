@@ -137,6 +137,7 @@ def main():
             if AIMove is None:
                 AIMove = AI.findRandomMove(validMoves)
             gs.makeMove(AIMove)
+            print("Ai Moved: ", AIMove.getChessNotation())
             moveMade = True
             doAnimate = True
 
@@ -159,6 +160,7 @@ def main():
             moveMade = False
             print("checkMate:", gs.checkMate)
             print("staleMate:", gs.staleMate)
+            print("Available Moves: ", len(validMoves))
 
         # Draw Game State
         draw_game_state(screen, gs, validMoves, sqselected)

@@ -3,7 +3,7 @@ import random
 pieceScore = {"K": 0, "Q": 10, "R": 5, "B": 3, "N": 3, "P": 1}
 CHECKMATE = 1000
 STALEMATE = 0
-DEPTH = 3
+DEPTH = 4
 
 Promotions = ['Q', 'B', 'R', 'N']
 
@@ -20,7 +20,7 @@ def findBestMove(gs, validMoves):
         bestAlphaBetaMinMaxMove(gs, validMoves, DEPTH, -CHECKMATE, CHECKMATE, 1)
     else:
         bestAlphaBetaMinMaxMove(gs, validMoves, DEPTH, -CHECKMATE, CHECKMATE, -1)
-    print(counter)
+    # print(counter)
     return nextMove
 
 def bestAlphaBetaMinMaxMove(gs, validMoves, depth, alpha, beta, turn):

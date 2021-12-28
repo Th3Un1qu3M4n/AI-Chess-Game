@@ -77,7 +77,7 @@ class GameState():
         # Update Enpassant Variable only if Pawn Moves Two Squares:
         if move.pieceMoved[1] == 'P' and abs(move.startRow - move.endRow) == 2:
             self.enpassantPossible = ((move.startRow + move.endRow)//2, move.startCol)  # Taking Average to get the square in the middle of the 2 square move
-            print("\n en possant\n", move.pieceMoved)
+            # print("\n en possant\n", move.pieceMoved)
         else:
             self.enpassantPossible = ()
 
@@ -97,9 +97,9 @@ class GameState():
         # Updating Castle Rights on Each Move:
         self.updateCastleRights(move)
         self.castleRightsLog.append(CastleRights(self.currentCastlingRights.wks, self.currentCastlingRights.bks, self.currentCastlingRights.wqs, self.currentCastlingRights.bqs))
-        for log in self.castleRightsLog:
-            print(log.wks, log.bks, log.wqs, log.bqs)
-        print("\n\n")
+        # for log in self.castleRightsLog:
+        #     print(log.wks, log.bks, log.wqs, log.bqs)
+        # print("\n\n")
 
     def undoMove(self):
 
@@ -135,7 +135,7 @@ class GameState():
                 print("Is castle Move")
                 if move.endCol - move.startCol == 2:  # King side Castle
                     self.board[move.endRow][move.endCol + 1] = self.board[move.endRow][move.endCol - 1]
-                    print(move.endRow, move.endCol + 1, " from ", move.endRow, move.endCol -1)
+                    # print(move.endRow, move.endCol + 1, " from ", move.endRow, move.endCol -1)
                     self.board[move.endRow][move.endCol - 1] = '--'
                 else:  # Queen Side Castle
                     self.board[move.endRow][move.endCol - 2] = self.board[move.endRow][move.endCol + 1]
@@ -196,7 +196,7 @@ class GameState():
 
         moves = []
         self.inCheck, self.pins, self.checks = self.checkForPinsAndChecks()
-        print("\n incheck: ", self.inCheck, "\n")
+
         if self.whiteToMove:
             kingRow = self.whiteKingLocation[0]
             kingCol = self.whiteKingLocation[1]
@@ -207,6 +207,7 @@ class GameState():
             allyColor = 'b'
 
         if self.inCheck:
+            # print("\n incheck: ", self.inCheck, "\n")
             if len(self.checks) == 1:
                 moves = self.getAllPossibleMoves()
                 check = self.checks[0]
@@ -230,8 +231,8 @@ class GameState():
                 self.getKingMoves(kingRow, kingCol, moves)
         else:
             moves = self.getAllPossibleMoves()
-            print("King At ", kingRow, kingCol)
-            print(self.currentCastlingRights.wks, self.currentCastlingRights.bks, self.currentCastlingRights.wqs, self.currentCastlingRights.bqs)
+            # print("King At ", kingRow, kingCol)
+            # print(self.currentCastlingRights.wks, self.currentCastlingRights.bks, self.currentCastlingRights.wqs, self.currentCastlingRights.bqs)
             self.getCastleMoves(kingRow, kingCol, moves, allyColor)
 
         return moves
@@ -439,7 +440,7 @@ class GameState():
                     else:
                         self.blackKingLocation = (endRow, endCol)
                         # print("black King changed to ", self.blackKingLocation)
-                        print(rowMoves[k_move], colMoves[k_move])
+                        # print(rowMoves[k_move], colMoves[k_move])
 
                     inCheck, pins, checks = self. checkForPinsAndChecks()
 
@@ -506,7 +507,7 @@ class GameState():
                     elif endPiece[0] == enemyColor:
                         type = endPiece[1]
                         # print("Black King location", self.blackKingLocation)
-                        print(startRow, startCol," enemy found in direction ", d[0], d[1], enemyColor, type, endRow, endCol, i, j)
+                        # print(startRow, startCol," enemy found in direction ", d[0], d[1], enemyColor, type, endRow, endCol, i, j)
                         # print((i == 1 and type == 'P' and ((enemyColor == 'w' and 6 <= j <= 7) or (enemyColor == 'b' and 4 <= j <= 5))))
                         # if enemy piece found near King
                         if ( 0<= j <=3  and type == 'R') or \
@@ -516,7 +517,7 @@ class GameState():
                             (i==1 and type == 'K'):
                             if possiblePin == ():
                                 inCheck = True  # if enemy directly in range of King
-                                print("king in check by: ", enemyColor, type, endRow, endCol)
+                                # print("king in check by: ", enemyColor, type, endRow, endCol)
                                 checks.append((endRow, endCol, d[0], d[1]))
                                 break
                             else:
