@@ -93,7 +93,7 @@ def main():
                         sqselected = (row, col)
                         playerClicks.append(sqselected)
                     if len(playerClicks) == 2:
-                        move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                        move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board, player1, player2)
                         print(move.getChessNotation())
                         print("Possible moves: ")
                         for temp in validMoves:
