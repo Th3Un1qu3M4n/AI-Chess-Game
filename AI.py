@@ -20,11 +20,11 @@ def findBestMove(gs, validMoves):
         bestAlphaBetaMinMaxMove(gs, validMoves, DEPTH, -CHECKMATE, CHECKMATE, 1)
     else:
         bestAlphaBetaMinMaxMove(gs, validMoves, DEPTH, -CHECKMATE, CHECKMATE, -1)
-    # print(counter)
+    print("Number of Moves checked: ", counter)
     return nextMove
 
 def bestAlphaBetaMinMaxMove(gs, validMoves, depth, alpha, beta, turn):
-    global nextMove
+    global nextMove, counter
     if depth == 0:
         return turn * scoreBoard(gs)
 
@@ -35,6 +35,8 @@ def bestAlphaBetaMinMaxMove(gs, validMoves, depth, alpha, beta, turn):
             move.AIPromotionKey = Promotions[random.randint(0, len(Promotions) - 1)]
         gs.makeMove(move)
         nextMoves = gs.getValidMoves()
+        # print("Number of Moves to Check: ", len(nextMoves))
+        counter += len(nextMoves)
         score = -bestAlphaBetaMinMaxMove(gs, nextMoves, depth - 1, -beta, -alpha, -turn)
         if score > maxScore:
             maxScore = score

@@ -45,15 +45,16 @@ def main():
     gameOver = False
 
     # chess_instruction()
+    ROOT = tk.Tk()
 
+    ROOT.withdraw()
+    chess_instruction()
     while True:
-        ROOT = tk.Tk()
 
-        ROOT.withdraw()
 
         choice = simpledialog.askstring(title="Options",
                                                prompt="Choose Your Desired Option: \n1) Player vs AI \n2) AI vs AI \n3)Player vs Player")
-        chess_instruction()
+
         print(choice)
         if choice == '1':
             player1 = True
