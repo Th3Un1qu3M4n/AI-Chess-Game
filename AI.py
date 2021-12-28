@@ -48,12 +48,14 @@ def findRandomMove(validMoves):
 #     return bestPlayerMove
 
 def findBestMove(gs, validMoves):
-    global nextMove
+    global nextMove, counter
     nextMove = None
+    counter = 0
     if gs.whiteToMove:
         bestAlphaBetaMinMaxMove(gs, validMoves, DEPTH, -CHECKMATE, CHECKMATE, 1)
     else:
         bestAlphaBetaMinMaxMove(gs, validMoves, DEPTH, -CHECKMATE, CHECKMATE, -1)
+    print(counter)
     return nextMove
 
 # def bestMinMaxMove(gs, validMoves, depth, turn):
