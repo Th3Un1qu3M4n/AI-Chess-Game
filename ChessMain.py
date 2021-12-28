@@ -117,6 +117,7 @@ def main():
                     print("\nUndoing Move\n")
                     moveMade = True
                     doAnimate = False
+                    gameOver = False
 
                 if event.key == pygame.K_r:
                     gs = ChessEngine.GameState()

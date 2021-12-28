@@ -24,8 +24,8 @@ def findBestMove(gs, validMoves):
         elif gs.staleMate:
             opponentMaxScore = STALEMATE
         else:
+            opponentMaxScore = -CHECKMATE
             for opponentMove in opponentMoves:
-                opponentMaxScore = -CHECKMATE
                 gs.makeMove(opponentMove)
                 gs.getValidMoves()
                 if gs.checkMate:
