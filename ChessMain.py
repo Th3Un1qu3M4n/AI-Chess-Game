@@ -53,8 +53,8 @@ def main():
 
         print(choice)
         if choice == '1':
-            player1 = True
-            player2 = False
+            player1 = False
+            player2 = True
             break
         elif choice == '2':
             player1 = False
@@ -130,7 +130,7 @@ def main():
 
         #AI
         if not gameOver and not userTurn:
-            AIMove = AI.findBestMinMaxMove(gs, validMoves)
+            AIMove = AI.findBestMove(gs, validMoves)
             if AIMove is None:
                 AIMove = AI.findRandomMove(validMoves)
             gs.makeMove(AIMove)
